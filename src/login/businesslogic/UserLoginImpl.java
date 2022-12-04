@@ -19,7 +19,9 @@ public class UserLoginImpl implements UserLogin{
 
         keyboardInput = new Scanner(System.in);
 
-        UserType userType = loginType();
+        UserType userType = getLoginType();
+
+        System.out.println();
 
         switch (userType) {
             case GUEST -> guestLogin();
@@ -30,11 +32,21 @@ public class UserLoginImpl implements UserLogin{
     }
 
     private void guestLogin() {
+        System.out.println("Do you want to become registered?");
+
+
+
+
 
     }
 
-    private UserType loginType() {
+    private String getYesOrNo() {
+        System.out.print("[Y/N]: ");
+        String input = keyboardInput.nextLine();
+        return "";
+    }
 
+    private UserType getLoginType() {
 
         System.out.println("Please choose the type of user you'd like to login as.");
         System.out.println("1: guest (non-registered customer)");
@@ -45,9 +57,9 @@ public class UserLoginImpl implements UserLogin{
 
         if (input.length() != 1 || !Character.isDigit(input.charAt(0))
                 || Integer.parseInt(input) < 1 || Integer.parseInt(input) > 3) {
-            System.out.println("Please input 1 to 3");
+            System.out.println("Please input 1 to 3.");
             System.out.println();
-            return loginType();
+            return getLoginType();
         }
 
         UserType userType = null;

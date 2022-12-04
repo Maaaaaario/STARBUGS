@@ -1,5 +1,7 @@
 package common.dto;
 
+import common.UserType;
+
 /**
  * @title: UserDto
  * @Author Qihang Yin
@@ -8,7 +10,7 @@ package common.dto;
  */
 public class UserDto {
 
-    private int id;
+    private String id;
 
     private String username;
 
@@ -16,14 +18,19 @@ public class UserDto {
 
     private String password;
 
-    public UserDto(int id, String username, String nickname, String password) {
+    private UserType type;
+
+    public UserDto(String id, String username, String nickname, String password, UserType type) {
         this.id = id;
         this.username = username;
         this.nickname = nickname;
         this.password = password;
+        this.type = type;
     }
 
-    public int getId() {
+
+
+    public String getId() {
         return id;
     }
 
@@ -37,5 +44,9 @@ public class UserDto {
 
     public String getPassword() {
         return password;
+    }
+
+    public UserType getType() {
+        return type;
     }
 }

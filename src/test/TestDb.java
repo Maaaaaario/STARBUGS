@@ -1,5 +1,9 @@
 package test;
 
+import common.UserType;
+import common.dto.UserDto;
+import login.dao.UserDAO;
+import login.dao.UserDAOImpl;
 import login.dao.UserLoginDAO;
 
 /**
@@ -11,11 +15,30 @@ import login.dao.UserLoginDAO;
 public class TestDb {
     public static void main(String[] args) {
         try {
-            UserLoginDAO userLoginDAO = new UserLoginDAO();
+//            UserLoginDAO userLoginDAO = new UserLoginDAO();
+//
+//            String s = userLoginDAO.getPassword("test");
+//
+//            System.out.println("The password is " + s);
 
-            String s = userLoginDAO.getPassword("test");
+            UserDAO userDAO = new UserDAOImpl();
 
-            System.out.println("The password is " + s);
+//            UserDto dto = new UserDto("123", "Mario", "maaaaaario", "123456", UserType.GUEST);
+
+//            userDAO.add(dto);
+
+//            UserDto dto1 = userDAO.get("123");
+//
+//            System.out.println(dto1.getType().getCode());
+//
+//            userDAO.update("123", UserType.REGISTERED);
+//
+//            UserDto dto2 = userDAO.get("123");
+//
+//            System.out.println(dto2.getType().getCode());
+//
+            userDAO.delete("123");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
