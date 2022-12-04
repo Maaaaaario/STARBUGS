@@ -15,7 +15,7 @@ public class TestDb {
 
             String s = userLoginDAO.getPassword("test");
 
-            System.out.println("密码为" + s);
+            System.out.println("The password is " + s);
         } catch (Exception e) {
             e.printStackTrace();
         }

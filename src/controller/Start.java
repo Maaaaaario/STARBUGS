@@ -1,5 +1,8 @@
 package controller;
 
+import login.businesslogic.UserLogin;
+import login.businesslogic.UserLoginImpl;
+
 /**
  * @title: Start
  * @Author Qihang Yin
@@ -9,6 +12,9 @@ package controller;
 public class Start {
 
     public static void main(String[] args) {
-        System.out.println("Welcome!");
+
+        UserLogin userLogin = new UserLoginImpl();
+        userLogin.login();
+
     }
 }

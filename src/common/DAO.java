@@ -13,10 +13,10 @@ import java.sql.SQLException;
 public class DAO {
 
     // cloud database
-//    private static final String url="jdbc:mysql://47.243.123.182:3306/cafe?useUnicode=true&useCharacter=utf8&useSSL=true";
+    private static final String url="jdbc:mysql://47.243.123.182:3306/cafe?useUnicode=true&useCharacter=utf8&useSSL=true";
 
     // local database
-    private static final String url="jdbc:mysql://localhost:3306/cafe?useUnicode=true&useCharacter=utf8&useSSL=true";
+//    private static final String url="jdbc:mysql://localhost:3306/cafe?useUnicode=true&useCharacter=utf8&useSSL=true";
     private static final String user="root";
     private static final String pwd = "123456";
 
