@@ -1,5 +1,6 @@
 package login.businesslogic;
 
+import common.CheckUtils;
 import common.UserType;
 
 import java.util.Scanner;
@@ -33,7 +34,12 @@ public class UserLoginImpl implements UserLogin{
 
     private void guestLogin() {
         System.out.println("Do you want to become registered?");
-
+        String toRegister = getYesOrNo();
+        if ("Y".equalsIgnoreCase(toRegister)) {
+            // registration process
+        } else {
+            //  unregistered customer menu
+        }
 
 
 
@@ -43,7 +49,11 @@ public class UserLoginImpl implements UserLogin{
     private String getYesOrNo() {
         System.out.print("[Y/N]: ");
         String input = keyboardInput.nextLine();
-        return "";
+        if (!CheckUtils.isYOrN(input)) {
+            System.out.println("Please enter Y/N.");
+            return getYesOrNo();
+        }
+        return input;
     }
 
     private UserType getLoginType() {
@@ -55,9 +65,8 @@ public class UserLoginImpl implements UserLogin{
         System.out.print("Your choise is: ");
         String input = keyboardInput.nextLine();
 
-        if (input.length() != 1 || !Character.isDigit(input.charAt(0))
-                || Integer.parseInt(input) < 1 || Integer.parseInt(input) > 3) {
-            System.out.println("Please input 1 to 3.");
+        if (!CheckUtils.isValidChoice(input, 1, 3)) {
+            System.out.println("Please enter 1 to 3.");
             System.out.println();
             return getLoginType();
         }
