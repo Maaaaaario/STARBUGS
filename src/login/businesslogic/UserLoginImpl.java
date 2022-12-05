@@ -37,12 +37,14 @@ public class UserLoginImpl implements UserLogin{
         String toRegister = getYesOrNo();
         if ("Y".equalsIgnoreCase(toRegister)) {
             // registration process
+            register();
         } else {
             //  unregistered customer menu
         }
 
+    }
 
-
+    private void register() {
 
     }
 
