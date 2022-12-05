@@ -12,18 +12,15 @@ public class UserDto {
 
     private String id;
 
-    private String username;
-
-    private String nickname;
+    private String name;
 
     private String password;
 
     private UserType type;
 
-    public UserDto(String id, String username, String nickname, String password, UserType type) {
+    public UserDto(String id, String name, String password, UserType type) {
         this.id = id;
-        this.username = username;
-        this.nickname = nickname;
+        this.name = name;
         this.password = password;
         this.type = type;
     }
@@ -34,12 +31,8 @@ public class UserDto {
         return id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getNickname() {
-        return nickname;
+    public String getName() {
+        return name;
     }
 
     public String getPassword() {

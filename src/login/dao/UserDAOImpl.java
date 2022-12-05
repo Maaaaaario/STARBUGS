@@ -28,11 +28,10 @@ public class UserDAOImpl extends DAO implements UserDAO{
 
             ResultSet rs = s.executeQuery(sql);
             if (rs.next()) {
-                String userName = rs.getString("username");
-                String nickName = rs.getString("nickname");
+                String name = rs.getString("name");
                 String password = rs.getString("password");
                 UserType userType = UserType.fromValue(rs.getString("type"));
-                dto = new UserDto(id, userName, nickName, password, userType);
+                dto = new UserDto(id, name, password, userType);
             }
 
         } catch (SQLException e) {
@@ -48,10 +47,9 @@ public class UserDAOImpl extends DAO implements UserDAO{
         try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
 
             ps.setString(1, dto.getId());
-            ps.setString(2, dto.getUsername());
-            ps.setString(3, dto.getNickname());
-            ps.setString(4, dto.getPassword());
-            ps.setString(5, dto.getType().getCode());
+            ps.setString(2, dto.getName());
+            ps.setString(3, dto.getPassword());
+            ps.setString(4, dto.getType().getCode());
 
             ps.execute();
 

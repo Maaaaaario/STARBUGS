@@ -3,6 +3,7 @@ package login.dao;
 import common.UserType;
 import common.dto.UserDto;
 
+// dao demo
 public interface UserDAO {
 
     UserDto get(String id);
