@@ -10,7 +10,7 @@ import java.sql.SQLException;
  * @Date: 2022/11/30 20:03
  * @Version 1.0
  */
-public class DAO {
+public abstract class DAO {
 
     // cloud database
     private static final String url="jdbc:mysql://47.243.123.182:3306/cafe?useUnicode=true&useCharacter=utf8&useSSL=true";
