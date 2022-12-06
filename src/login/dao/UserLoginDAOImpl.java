@@ -83,7 +83,7 @@ public class UserLoginDAOImpl extends DAO implements UserLoginDAO{
 
         try (Connection c = getConnection(); Statement s = c.createStatement()) {
   
-            String sql = "select password from user where username = '" + userName + "'" + " and type = '" + userType.getCode() + "'";
+            String sql = "select password from user where name = '" + userName + "'" + " and type = '" + userType.getCode() + "'";
   
             ResultSet rs = s.executeQuery(sql);
             if (rs.next()) {

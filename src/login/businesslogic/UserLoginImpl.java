@@ -48,8 +48,10 @@ public class UserLoginImpl implements UserLogin{
         System.out.println("Registered customer login");
         System.out.println(SEPARATER);
 
-        boolean repeat = false;
+        boolean repeat;
         do {
+            repeat = false;
+
             // input name
             System.out.println("Please enter your name.");
             System.out.print("Your name: ");
@@ -115,8 +117,10 @@ public class UserLoginImpl implements UserLogin{
         System.out.println("Admin login");
         System.out.println(SEPARATER);
 
-        boolean repeat = false;
+        boolean repeat;
         do {
+            repeat = false;
+
             // input name
             System.out.println("Please enter your name.");
             System.out.print("Your name: ");
