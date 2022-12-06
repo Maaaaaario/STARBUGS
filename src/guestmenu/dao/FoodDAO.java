@@ -7,8 +7,12 @@ import guestmenu.Food;
 import java.util.ArrayList;
 
 public interface FoodDAO {
-    Food get(String id);
+    Food getFoodById(String id);
+    ArrayList<Food> getAllFoodByName(String foodName);
+    ArrayList<Food> getAllFoodByType(String type);
     ArrayList<Food> getAllFood();
+
+    ArrayList<String> getFoodTypes();
 
     void add(Food dto);
 
