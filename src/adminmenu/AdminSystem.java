@@ -3,6 +3,8 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class AdminSystem {
+
+    private static final String SEPARATER = "------------------------------";
     static Scanner keyboardInput; // Define the scanner used to get user input
     public enum Choice {
         Choice1, Choice2, Choice3, Choice4, Choice5
@@ -287,12 +289,15 @@ public class AdminSystem {
     
     // This is the main menu of the administration page
     public static void adminMainMenu (MenuOfProducts menuOfCoffeeShop) {
-        System.out.println ("Welecome to admin main menu, please choose what to do");
-        System.out.println ("Choice 1: Go to customer registration menu");
-        System.out.println ("Choice 2: Go to inventary check menu");
-        System.out.println ("Choice 3: Go to inventary adjustment menu");
-        System.out.println ("Choice 4: Go to reservation check menu");
-        System.out.println ("Choice 5: Exit the system");
+        System.out.println(SEPARATER);
+        System.out.println("Welecome to admin main menu!");
+        System.out.println(SEPARATER);
+        System.out.println ("Please choose what to do.");
+        System.out.println ("1: Go to customer registration menu");
+        System.out.println ("2: Go to inventary check menu");
+        System.out.println ("3: Go to inventary adjustment menu");
+        System.out.println ("4: Go to reservation check menu");
+        System.out.println ("5: Exit the system");
         Choice choice = makeChoice (5);
         switch (choice) {
             case Choice1 -> customerRegistrationMenu (menuOfCoffeeShop);
@@ -303,7 +308,7 @@ public class AdminSystem {
         }
     }
     
-    public static void main(String[] args) {  
+    public static void startAdminMenu() {
         ArrayList <Product> menu = new ArrayList<>();
         MenuOfProducts menuOfCoffeeShop = new MenuOfProducts (menu);
         keyboardInput = new Scanner (System.in); 

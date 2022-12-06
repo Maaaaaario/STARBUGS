@@ -1,5 +1,6 @@
 package login.businesslogic;
 
+import adminmenu.AdminSystem;
 import common.CheckUtils;
 import common.UserType;
 import common.dto.RegisterInfoDto;
@@ -76,10 +77,12 @@ public class UserLoginImpl implements UserLogin{
                     repeat = true;
                     System.out.println();
                 } else {
+                    System.out.println();
                     return;
                 }
             } else {
                 if (correctPassword.equalsIgnoreCase(inputPassword)) {
+                    System.out.println();
                     //todo go to registered customer menu
                 } else {
                     System.out.println("The password is incorrect.");
@@ -91,6 +94,7 @@ public class UserLoginImpl implements UserLogin{
                         repeat = true;
                         System.out.println();
                     } else {
+                        System.out.println();
                         return;
                     }
                 }
@@ -145,11 +149,14 @@ public class UserLoginImpl implements UserLogin{
                     repeat = true;
                     System.out.println();
                 } else {
+                    System.out.println();
                     return;
                 }
             } else {
                 if (correctPassword.equalsIgnoreCase(inputPassword)) {
+                    System.out.println();
                     //todo go to admin menu
+                    AdminSystem.startAdminMenu();
                 } else {
                     System.out.println("The password is incorrect.");
 
@@ -160,6 +167,7 @@ public class UserLoginImpl implements UserLogin{
                         repeat = true;
                         System.out.println();
                     } else {
+                        System.out.println();
                         return;
                     }
                 }
@@ -175,6 +183,7 @@ public class UserLoginImpl implements UserLogin{
             register();
             //todo go to registered customer menu
         } else {
+            System.out.println();
             //todo go to unregistered customer menu
         }
     }
