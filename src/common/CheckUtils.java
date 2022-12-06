@@ -26,4 +26,8 @@ public class CheckUtils {
 
         return false;
     }
+
+    public static boolean isNullOrEmpty(String str) {
+        return str == null || str.isEmpty();
+    }
 }

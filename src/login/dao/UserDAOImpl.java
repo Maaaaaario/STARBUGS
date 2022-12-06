@@ -14,7 +14,7 @@ import java.sql.*;
  */
 public class UserDAOImpl extends DAO implements UserDAO{
 
-    public UserDAOImpl() throws ClassNotFoundException {
+    public UserDAOImpl() {
     }
 
     @Override
@@ -43,8 +43,8 @@ public class UserDAOImpl extends DAO implements UserDAO{
 
     @Override
     public void add(UserDto dto) {
-        String sql = "insert into user values(?,?,?,?,?)";
-        try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
+        String sql = "insert into user values(?,?,?,?)";
+        try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setString(1, dto.getId());
             ps.setString(2, dto.getName());
@@ -60,7 +60,7 @@ public class UserDAOImpl extends DAO implements UserDAO{
 
     @Override
     public void delete(String id) {
-        try (Connection c = getConnection(); Statement s = c.createStatement();) {
+        try (Connection c = getConnection(); Statement s = c.createStatement()) {
 
             String sql = "delete from user where id = '" + id + "'";
 
@@ -74,7 +74,7 @@ public class UserDAOImpl extends DAO implements UserDAO{
     @Override
     public void update(String id, UserType type) {
         String sql = "update user set type = ? where id = ?";
-        try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql);) {
+        try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setString(1, type.getCode());
             ps.setString(2, id);

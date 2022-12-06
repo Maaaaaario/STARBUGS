@@ -20,8 +20,12 @@ public abstract class DAO {
     private static final String user="root";
     private static final String pwd = "123456";
 
-    public DAO() throws ClassNotFoundException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
+    public DAO() {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected Connection getConnection() throws SQLException {

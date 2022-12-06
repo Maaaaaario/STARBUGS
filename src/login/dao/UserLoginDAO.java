@@ -1,35 +1,15 @@
 package login.dao;
 
-import common.DAO;
+import common.UserType;
+import common.dto.RegisterInfoDto;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+public interface UserLoginDAO {
 
-public class UserLoginDAO extends DAO {
+    String getMaxId();
 
+    String getPassword(String userName, UserType userType);
 
-    public UserLoginDAO() throws ClassNotFoundException {
-    }
+    void addRegisterInfo(RegisterInfoDto dto);
 
-    public String getPassword(String userName) {
-
-        String password = "";
-
-        try (Connection c = getConnection(); Statement s = c.createStatement()) {
-  
-            String sql = "select password from user where username = '" + userName + "'";
-  
-            ResultSet rs = s.executeQuery(sql);
-            if (rs.next()) {
-                password = rs.getString("password");
-            }
-  
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return password;
-    }
+    int getNumberOfThisName(String name);
 }
