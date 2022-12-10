@@ -140,7 +140,7 @@ public class CustomerMenu {
         System.out.println("Order Information");
         System.out.println("name"+"\t"+"number"+"\t");
         System.out.println(produce.getName()+"\t"+number+"\t");
-        double discount = isUseVipStatus && isRegistered? 0.9 : 1.0;
+        double discount = isUseVipStatus && isRegistered? 0.95 : 1.0;
         double totalPrice = produce.getPrice() * number * discount;
         System.out.println("You need to pay:" + totalPrice);
         System.out.println("Do you want to pay the money?please choose to do");
@@ -152,7 +152,16 @@ public class CustomerMenu {
             case "2" -> customerMainMenu(shoppingCartList,"1",true);
         }
     }
-    public static void buyFoodInShoppingCart(ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo) {
+    public static void buyAllProducesInShoppingCart(ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo) {
+        Boolean isUseVipStatus = false;
+        Boolean isRegistered = false;
+        if(registerInfo != null) {
+            isRegistered = true;
+            if(registerInfo.getVipStatus()) {
+                isUseVipStatus = isUsedVipStatus(registerInfo);
+            }
+        }
+        double discount = isUseVipStatus && isRegistered? 0.95 : 1.0;
         System.out.println("Order Information");
         double totalPrice = 0;
         System.out.println("\t"+"name"+"\t"+"price"+"\t"+"number"+"\t");
@@ -160,16 +169,16 @@ public class CustomerMenu {
             String name = shoppingCart.getShoppingCartProduce().getName();
             double price = shoppingCart.getShoppingCartProduce().getPrice();
             int num = shoppingCart.getShoppingCartProduceNumber();
-            totalPrice += price * num;
+            totalPrice += price * num * discount;
             System.out.println(name+"\t"+price+"\t"+num);
         }
         System.out.println("You need to pay:" + totalPrice);
         System.out.println("Do you want to pay the money?please choose to do");
-        System.out.println("Choice 1: pay the money");
-        System.out.println("Choice 2: cancel and go to the main menu");
+        System.out.println("1: pay the money");
+        System.out.println("2: cancel and go to the main menu");
         String choice = enterChoice(1,2);
         switch (choice) {
-            case "1" -> payMoney (totalPrice,shoppingCartList,registerInfo,true);
+            case "1" -> payMoney (totalPrice,shoppingCartList,registerInfo,isUseVipStatus);
             case "2" -> customerMainMenu(shoppingCartList,"1",true);
         }
     }
@@ -302,11 +311,11 @@ public class CustomerMenu {
             System.out.println(name+"\t"+price+"\t"+num);
         }
         System.out.println("Do you want to buy the food immediately?pleas choose to do");
-        System.out.println("1: buy food immediately");
+        System.out.println("1: buy all produces immediately");
         System.out.println("2: return to buyFoodOrDrinksMenu");
         String choice = enterChoice(1,2);
         switch (choice) {
-            case "1" -> buyFoodInShoppingCart (shoppingCartList,registerInfo);
+            case "1" -> buyAllProducesInShoppingCart (shoppingCartList,registerInfo);
             case "2" -> customerMainMenu(shoppingCartList,"1",true);
         }
     }
