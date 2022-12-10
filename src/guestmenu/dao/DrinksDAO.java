@@ -5,8 +5,12 @@ import guestmenu.Drinks;
 import java.util.ArrayList;
 
 public interface DrinksDAO {
-    Drinks get(String id);
+    Drinks getDrinksById(String id);
+    ArrayList<Drinks> getAllDrinksByName(String drinksName);
+    ArrayList<Drinks> getAllDrinksByType(String type);
     ArrayList<Drinks> getAllDrinks();
+
+    ArrayList<String> getDrinksTypes();
 
     void add(Drinks drinks);
 

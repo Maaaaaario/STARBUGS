@@ -12,4 +12,10 @@ public interface UserLoginDAO {
     void addRegisterInfo(RegisterInfoDto dto);
 
     int getNumberOfThisName(String name);
+
+    RegisterInfoDto getRegisterInfo(String id);
+
+    void updateRegisterVipStatus(String id,Boolean status);
+
+    void updateRegisterStamps(String id,int stamps);
 }
