@@ -285,7 +285,7 @@ public class CustomerMenu {
     public static String chooseFoodType(ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo) {
         System.out.println("Welecome to buy food, please choose one type you want to eat");
         ArrayList<String> foodTypes = showFoodTypes(shoppingCartList);
-        System.out.print ("\nplease input the serial number of the foodTypes: ");
+        System.out.print ("\nplease input the number of the foodTypes: ");
         int id = getIntFromKeyboard()-1; // Get input choice from user
         String type = foodTypes.get(id);
 //        System.out.println("type: "+type);
@@ -349,7 +349,7 @@ public class CustomerMenu {
     public static String chooseDrinksType(ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo) {
         System.out.println("Welecome to buy drinks, please choose one type you want to drink");
         ArrayList<String> drinksTypes = getDrinksTypes(shoppingCartList);
-        System.out.print ("\nplease input the serial number of the foodTypes: ");
+        System.out.print ("\nplease input the number of the foodTypes: ");
         int id = getIntFromKeyboard()-1; // Get input choice from user
         String type = drinksTypes.get(id);
 //        System.out.println("type: "+type);
@@ -427,25 +427,38 @@ public class CustomerMenu {
             case "2" -> buyFoodDrinksMenu(shoppingCartList,registerInfo);
         }
     }
+    public static String printFormat() {
+        String column1Format = "%-12s";
+        String column2Format = "%-12s";
+        String column3Format = "%-12s";
+        String formatInfo = column1Format + column2Format + column3Format;
+        return formatInfo;
+    }
     public static void printFoodList(ArrayList<Food> foodList) {
-        System.out.println("\t"+"id"+"\t"+"name"+"\t"+"price"+"\t"+"type"+"\t");
+        String formatInfo = printFormat();
+        System.out.format(formatInfo,"name","price","type");
+        System.out.println();
         for (Food food: foodList) {
-            System.out.println("\t"+food.getId()+"\t"+food.getName()+"\t"+food.getPrice()+"\t"+food.getType()+"\t");
+            System.out.format(formatInfo, food.getName(),food.getPrice(),food.getType());
+            System.out.println();
         }
     }
     public static void printDrinksList(ArrayList<Drinks> drinksList){
-        System.out.println("\t"+"name"+"\t"+"price"+"\t"+"type"+"\t");
+        String formatInfo = printFormat();
+        System.out.format(formatInfo,"name","price","type");
+        System.out.println();
         for (Drinks drinks: drinksList) {
-            System.out.println("\t"+drinks.getName()+"\t"+drinks.getPrice()+"\t"+drinks.getType()+"\t");
+            System.out.format(formatInfo,drinks.getName(),drinks.getPrice(),drinks.getType());
+            System.out.println();
         }
     }
     public static ArrayList<String> showFoodTypes(ArrayList<ShoppingCart> shoppingCartList) {
         FoodDAO foodDAO = new FoodDAOImpl();
         ArrayList<String> foodTypes = foodDAO.getFoodTypes();
         int index = 1;
-        System.out.println("serial number"+"\t"+"Foodtypes"+"\t");
+        System.out.println("number"+"\t"+"Foodtypes"+"\t");
         for(String type: foodTypes) {
-            System.out.println(index+"\t"+type);
+            System.out.println("\t"+index+"\t"+type);
             index++;
         }
         return foodTypes;
@@ -454,7 +467,7 @@ public class CustomerMenu {
         DrinksDAO drinksDAO = new DrinksDAOImpl();
         ArrayList<String> drinksTypes = drinksDAO.getDrinksTypes();
         int index = 1;
-        System.out.println("serial number"+"\t"+"Foodtypes"+"\t");
+        System.out.println("number"+"\t"+"Foodtypes"+"\t");
         for(String type: drinksTypes) {
             System.out.println(index+"\t"+type);
             index++;
@@ -583,6 +596,6 @@ public class CustomerMenu {
 //        ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
 //        ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
 //        customerMainMenu(shoppingCartList,"1",true);
-//        goToGuestMenu();
+        goToGuestMenu();
     }
 }
