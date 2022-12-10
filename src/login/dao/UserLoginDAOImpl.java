@@ -4,6 +4,7 @@ import common.DAO;
 import common.UserType;
 import common.dto.RegisterInfoDto;
 import common.dto.UserDto;
+import guestmenu.Food;
 
 import java.sql.*;
 
@@ -95,5 +96,57 @@ public class UserLoginDAOImpl extends DAO implements UserLoginDAO{
         }
 
         return password;
+    }
+
+    @Override
+    public RegisterInfoDto getRegisterInfo(String id) {
+        RegisterInfoDto registerInfoDto = null;
+
+        try (Connection c = getConnection(); Statement s = c.createStatement()) {
+
+            String sql = "select * from register_info where id = '" + id + "'";
+
+            ResultSet rs = s.executeQuery(sql);
+            if (rs.next()) {
+                int stamps = rs.getInt("stamps");
+                Boolean vip_status = rs.getBoolean("vip_status");
+                Date date = rs.getDate("vip_expire_date");
+                registerInfoDto = new RegisterInfoDto(id, stamps, vip_status, date);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return registerInfoDto;
+    }
+
+    @Override
+    public void updateRegisterVipStatus(String id,Boolean status) {
+        String sql = "update register_info set vip_status = ? where id = ?";
+        try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setInt(1, status? 1 : 0);
+            ps.setString(2, id);
+
+            ps.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateRegisterStamps(String id, int stamps) {
+        String sql = "update register_info set stamps = ? where id = ?";
+        try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setInt(1, stamps);
+            ps.setString(2, id);
+
+            ps.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
