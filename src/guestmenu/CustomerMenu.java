@@ -178,7 +178,7 @@ public class CustomerMenu {
         System.out.println("You need to pay:" + totalPrice);
         System.out.println("Do you want to pay the money?please choose to do");
         System.out.println("1: pay the money");
-        System.out.println("2: cancel and go to the main menu");
+        System.out.println("2: cancel and go to the BuyFoodODrinks menu");
         String choice = enterChoice(1,2);
         FoodDAO foodDAO = new FoodDAOImpl();
         DrinksDAO drinksDAO = new DrinksDAOImpl();
@@ -189,7 +189,7 @@ public class CustomerMenu {
         }
         switch (choice) {
             case "1" -> payMoney (totalPrice,shoppingCartList,registerInfo,isUseVipStatus);
-            case "2" -> customerMainMenu(shoppingCartList,registerInfo.getId(),true);
+            case "2" -> buyFoodDrinksMenu(shoppingCartList,registerInfo);
         }
     }
     public static void buyAllProducesInShoppingCart(ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo) {
@@ -227,9 +227,11 @@ public class CustomerMenu {
                     foodDAO.updateInventory(shoppingCart.getShoppingCartProduce().getId(),shoppingCart.getShoppingCartProduceNumber());
                 }
             }
+            shoppingCartList.clear();
             payMoney (totalPrice,shoppingCartList,registerInfo,isUseVipStatus);
+
         } else {
-            customerMainMenu(shoppingCartList,registerInfo.getId(),true);
+            buyFoodDrinksMenu(shoppingCartList,registerInfo);
         }
     }
     public static RegisterInfoDto updateStamps(RegisterInfoDto registerInfoDto) {
@@ -399,6 +401,15 @@ public class CustomerMenu {
         }
     }
     public static void shoppingCart(ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo) {
+        String userId = registerInfo != null ? registerInfo.getId() : null;
+        if(shoppingCartList.size() == 0) {
+            System.out.println("you don't add anythind in the shopping cart");
+            System.out.println("please enter 1 to return");
+            String choice = enterChoice(1,1);
+            if(choice.equals("1")) {
+                buyFoodDrinksMenu(shoppingCartList,registerInfo);
+            }
+        }
         System.out.println("\t"+"name"+"\t"+"price"+"\t"+"number"+"\t");
         for(ShoppingCart shoppingCart: shoppingCartList) {
             String name = shoppingCart.getShoppingCartProduce().getName();
@@ -410,9 +421,10 @@ public class CustomerMenu {
         System.out.println("1: buy all produces immediately");
         System.out.println("2: return to buyFoodOrDrinksMenu");
         String choice = enterChoice(1,2);
+
         switch (choice) {
             case "1" -> buyAllProducesInShoppingCart (shoppingCartList,registerInfo);
-            case "2" -> customerMainMenu(shoppingCartList,registerInfo.getId(),true);
+            case "2" -> buyFoodDrinksMenu(shoppingCartList,registerInfo);
         }
     }
     public static void printFoodList(ArrayList<Food> foodList) {
