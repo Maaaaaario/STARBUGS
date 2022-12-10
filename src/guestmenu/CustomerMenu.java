@@ -59,7 +59,7 @@ public class CustomerMenu {
             switch (choice) {
                 case "1" -> buyFoodMenu (shoppingCartList,registerInfo,null);
                 case "2" -> buyDrinksMenu(shoppingCartList,registerInfo,null, false);
-                case "3" -> shoppingCart(shoppingCartList,registerInfo);
+                case "3" -> shoppingCart(shoppingCartList,null);
                 case "4" -> returnToLoginInterface();
             }
         }
