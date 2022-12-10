@@ -171,8 +171,10 @@ public class CustomerMenu {
         }
 
         System.out.println("Order Information");
-        System.out.println("name"+"\t"+"number"+"\t");
-        System.out.println(produce.getName()+"\t"+number+"\t");
+        String formatInfo = printFormat(2);
+        System.out.format(formatInfo,"name","number");
+        System.out.println();
+        System.out.format(formatInfo,produce.getName(),number);
         double discount = isUseVipStatus && isRegistered? 0.95 : 1.0;
         double totalPrice = produce.getPrice() * number * discount;
         System.out.println("You need to pay:" + totalPrice);
@@ -204,13 +206,16 @@ public class CustomerMenu {
         double discount = isUseVipStatus && isRegistered? 0.95 : 1.0;
         System.out.println("Order Information");
         double totalPrice = 0;
-        System.out.println("\t"+"name"+"\t"+"price"+"\t"+"number"+"\t");
+        String formatInfo = printFormat(3);
+        System.out.format(formatInfo,"name","price","number");
+        System.out.println();
         for(ShoppingCart shoppingCart: shoppingCartList) {
             String name = shoppingCart.getShoppingCartProduce().getName();
             double price = shoppingCart.getShoppingCartProduce().getPrice();
             int num = shoppingCart.getShoppingCartProduceNumber();
             totalPrice += price * num * discount;
-            System.out.println(name+"\t"+price+"\t"+num);
+            System.out.format(formatInfo,name,price,num);
+            System.out.println();
         }
         System.out.println("You need to pay:" + totalPrice);
         System.out.println("Do you want to pay the money?please choose to do");
@@ -410,12 +415,15 @@ public class CustomerMenu {
                 buyFoodDrinksMenu(shoppingCartList,registerInfo);
             }
         }
-        System.out.println("\t"+"name"+"\t"+"price"+"\t"+"number"+"\t");
+        String formatInfo = printFormat(3);
+        System.out.format(formatInfo,"name","price","number");
+        System.out.println();
         for(ShoppingCart shoppingCart: shoppingCartList) {
             String name = shoppingCart.getShoppingCartProduce().getName();
             double price = shoppingCart.getShoppingCartProduce().getPrice();
             int num = shoppingCart.getShoppingCartProduceNumber();
-            System.out.println(name+"\t"+price+"\t"+num);
+            System.out.format(formatInfo,name,price,num);
+            System.out.println();
         }
         System.out.println("Do you want to buy the food immediately?pleas choose to do");
         System.out.println("1: buy all produces immediately");
@@ -427,15 +435,19 @@ public class CustomerMenu {
             case "2" -> buyFoodDrinksMenu(shoppingCartList,registerInfo);
         }
     }
-    public static String printFormat() {
-        String column1Format = "%-12s";
-        String column2Format = "%-12s";
-        String column3Format = "%-12s";
-        String formatInfo = column1Format + column2Format + column3Format;
+    public static String printFormat(int number) {
+        String formatInfo = "";
+        for(int i=0;i<number;i++) {
+            formatInfo += "%-12s";
+        }
         return formatInfo;
+//        String column1Format = "%-12s";
+//        String column2Format = "%-12s";
+//        String column3Format = "%-12s";
+//        String formatInfo = column1Format + column2Format + column3Format;
     }
     public static void printFoodList(ArrayList<Food> foodList) {
-        String formatInfo = printFormat();
+        String formatInfo = printFormat(3);
         System.out.format(formatInfo,"name","price","type");
         System.out.println();
         for (Food food: foodList) {
@@ -444,7 +456,7 @@ public class CustomerMenu {
         }
     }
     public static void printDrinksList(ArrayList<Drinks> drinksList){
-        String formatInfo = printFormat();
+        String formatInfo = printFormat(3);
         System.out.format(formatInfo,"name","price","type");
         System.out.println();
         for (Drinks drinks: drinksList) {
@@ -456,9 +468,12 @@ public class CustomerMenu {
         FoodDAO foodDAO = new FoodDAOImpl();
         ArrayList<String> foodTypes = foodDAO.getFoodTypes();
         int index = 1;
-        System.out.println("number"+"\t"+"Foodtypes"+"\t");
+        String formatInfo = printFormat(2);
+        System.out.format(formatInfo,"number","Foodtypes");
+        System.out.println();
         for(String type: foodTypes) {
-            System.out.println("\t"+index+"\t"+type);
+            System.out.format(formatInfo,index,type);
+            System.out.println();
             index++;
         }
         return foodTypes;
@@ -467,9 +482,12 @@ public class CustomerMenu {
         DrinksDAO drinksDAO = new DrinksDAOImpl();
         ArrayList<String> drinksTypes = drinksDAO.getDrinksTypes();
         int index = 1;
-        System.out.println("number"+"\t"+"Foodtypes"+"\t");
+        String formatInfo = printFormat(2);
+        System.out.format(formatInfo,"number","Foodtypes");
+        System.out.println();
         for(String type: drinksTypes) {
-            System.out.println(index+"\t"+type);
+            System.out.format(formatInfo,index,type);
+            System.out.println();
             index++;
         }
         return drinksTypes;
@@ -508,14 +526,14 @@ public class CustomerMenu {
         printDrinksList(drinksList);
         return drinksList;
     }
-    public static void showAllDrinks() {
-        DrinksDAO drinksDAO = new DrinksDAOImpl();
-        ArrayList<Drinks> drinksList= drinksDAO.getAllDrinks();
-        System.out.println("\t"+"id"+"\t"+"name"+"\t"+"price"+"\t"+"type"+"\t");
-        for (Drinks drinks: drinksList) {
-            System.out.println("\t"+drinks.getId()+"\t"+drinks.getName()+"\t"+drinks.getPrice()+"\t"+drinks.getType()+"\t");
-        }
-    }
+//    public static void showAllDrinks() {
+//        DrinksDAO drinksDAO = new DrinksDAOImpl();
+//        ArrayList<Drinks> drinksList= drinksDAO.getAllDrinks();
+//        System.out.println("\t"+"id"+"\t"+"name"+"\t"+"price"+"\t"+"type"+"\t");
+//        for (Drinks drinks: drinksList) {
+//            System.out.println("\t"+drinks.getId()+"\t"+drinks.getName()+"\t"+drinks.getPrice()+"\t"+drinks.getType()+"\t");
+//        }
+//    }
     public static RegisterInfoDto getRegisterInfoById(String userId) {
         UserLoginDAO userLoginDAO = new UserLoginDAOImpl();
         RegisterInfoDto registerInfo = userLoginDAO.getRegisterInfo(userId);
@@ -596,6 +614,6 @@ public class CustomerMenu {
 //        ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
 //        ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
 //        customerMainMenu(shoppingCartList,"1",true);
-        goToGuestMenu();
+//        goToGuestMenu();
     }
 }
