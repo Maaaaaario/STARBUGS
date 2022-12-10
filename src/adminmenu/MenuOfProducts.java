@@ -2,7 +2,7 @@ package adminmenu;
 import java.util.ArrayList;
 
 public class MenuOfProducts {
-    ArrayList<Product>menu;
+    ArrayList<Product> menu;
     
     public MenuOfProducts (ArrayList<Product>menu) {
         this.menu = menu;

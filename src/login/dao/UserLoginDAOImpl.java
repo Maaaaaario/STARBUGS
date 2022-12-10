@@ -99,6 +99,27 @@ public class UserLoginDAOImpl extends DAO implements UserLoginDAO{
     }
 
     @Override
+    public String getId(String userName) {
+
+        String id = null;
+
+        try (Connection c = getConnection(); Statement s = c.createStatement()) {
+
+            String sql = "select id from user where name = '" + userName + "'";
+
+            ResultSet rs = s.executeQuery(sql);
+            if (rs.next()) {
+                id = rs.getString("id");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+
+    @Override
     public RegisterInfoDto getRegisterInfo(String id) {
         RegisterInfoDto registerInfoDto = null;
 

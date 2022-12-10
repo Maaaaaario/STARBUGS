@@ -5,7 +5,6 @@ import common.CheckUtils;
 import common.UserType;
 import common.dto.RegisterInfoDto;
 import common.dto.UserDto;
-import guestmenu.Produce;
 import guestmenu.ShoppingCart;
 import login.dao.UserDAO;
 import login.dao.UserDAOImpl;
@@ -88,8 +87,9 @@ public class UserLoginImpl implements UserLogin{
             } else {
                 if (correctPassword.equalsIgnoreCase(inputPassword)) {
                     System.out.println();
-                    //todo go to registered customer menu
-                    goToCustomerMenu("1",true);
+                    String id = userLoginDAO.getId(inputName);
+                    // go to registered customer menu
+                    goToCustomerMenu(id,true);
                 } else {
                     System.out.println("The password is incorrect.");
 
@@ -186,17 +186,17 @@ public class UserLoginImpl implements UserLogin{
         String toRegister = getYesOrNo();
         if ("Y".equalsIgnoreCase(toRegister)) {
             // registration process
-            register();
-            //todo go to registered customer menu
-            goToCustomerMenu("1",true);
+            String newId = register();
+            // go to registered customer menu
+            goToCustomerMenu(newId,true);
         } else {
             System.out.println();
-            //todo go to unregistered customer menu
-            goToCustomerMenu("1",false);
+            // go to unregistered customer menu
+            goToCustomerMenu(null,false);
         }
     }
 
-    private void register() {
+    private String register() {
         System.out.println(SEPARATER);
         System.out.println("Welcome to registration!");
         System.out.println(SEPARATER);
@@ -237,6 +237,8 @@ public class UserLoginImpl implements UserLogin{
 
         System.out.println("Registered successfully. Your ID is: " + id);
         System.out.println();
+
+        return id;
     }
 
     // id should be like 00000001
@@ -291,8 +293,8 @@ public class UserLoginImpl implements UserLogin{
         return userType;
     }
     private void goToCustomerMenu(String id,Boolean isRegistered) {
-        ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
-        ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
+//        ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
+        ArrayList<ShoppingCart> shoppingCartList= new ArrayList<>();
         customerMainMenu(shoppingCartList,id,isRegistered);
     }
 }

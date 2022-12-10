@@ -294,8 +294,8 @@ public class AdminSystem {
         System.out.println(SEPARATER);
         System.out.println ("Please choose what to do.");
         System.out.println ("1: Go to customer registration menu");
-        System.out.println ("2: Go to inventary check menu");
-        System.out.println ("3: Go to inventary adjustment menu");
+        System.out.println ("2: Go to daily inventory menu");
+        System.out.println ("3: Go to inventory adjustment menu");
         System.out.println ("4: Go to reservation check menu");
         System.out.println ("5: Exit the system");
         Choice choice = makeChoice (5);

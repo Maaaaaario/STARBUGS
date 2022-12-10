@@ -9,6 +9,8 @@ public interface UserLoginDAO {
 
     String getPassword(String userName, UserType userType);
 
+    String getId(String userName);
+
     void addRegisterInfo(RegisterInfoDto dto);
 
     int getNumberOfThisName(String name);
