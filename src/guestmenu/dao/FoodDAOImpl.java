@@ -3,14 +3,11 @@ package guestmenu.dao;
 import common.DAO;
 import guestmenu.Food;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class FoodDAOImpl extends DAO implements FoodDAO {
-    public FoodDAOImpl() throws ClassNotFoundException {
+    public FoodDAOImpl() {
     }
 
     @Override
@@ -28,7 +25,8 @@ public class FoodDAOImpl extends DAO implements FoodDAO {
                 int sales = rs.getInt("sales");
                 int inventory = rs.getInt("inventory");
                 String type = rs.getString("type");
-                food = new Food(id, name, price, type, sales, inventory);
+                int dailyInventory = rs.getInt("daily_inventory");
+                food = new Food(id, name, price, type, sales, inventory,dailyInventory);
             }
 
         } catch (SQLException e) {
@@ -53,7 +51,8 @@ public class FoodDAOImpl extends DAO implements FoodDAO {
                 int sales = rs.getInt("sales");
                 int inventory = rs.getInt("inventory");
                 String type = rs.getString("type");
-                Food food = new Food(id, name, price, type, sales, inventory);
+                int dailyInventory = rs.getInt("daily_inventory");
+                Food food = new Food(id, name, price, type, sales, inventory,dailyInventory);
                 foodList.add(food);
             }
 
@@ -78,7 +77,8 @@ public class FoodDAOImpl extends DAO implements FoodDAO {
                 double price = rs.getDouble("price");
                 int sales = rs.getInt("sales");
                 int inventory = rs.getInt("inventory");
-                Food food = new Food(id, name, price, type, sales, inventory);
+                int dailyInventory = rs.getInt("daily_inventory");
+                Food food = new Food(id, name, price, type, sales, inventory,dailyInventory);
                 foodList.add(food);
             }
 
@@ -104,7 +104,8 @@ public class FoodDAOImpl extends DAO implements FoodDAO {
                 int sales = rs.getInt("sales");
                 int inventory = rs.getInt("inventory");
                 String type = rs.getString("type");
-                Food food = new Food(id, name, price, type, sales, inventory);
+                int dailyInventory = rs.getInt("daily_inventory");
+                Food food = new Food(id, name, price, type, sales, inventory,dailyInventory);
                 foodList.add(food);
             }
 
@@ -139,8 +140,18 @@ public class FoodDAOImpl extends DAO implements FoodDAO {
     }
 
     @Override
-    public void update(String id) {
+    public void updateInventory(String id, int number) {
+        String sql = "update food set inventory = inventory - ? where id = ?";
+        try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
 
+            ps.setInt(1, number);
+            ps.setString(2, id);
+
+            ps.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class DrinksDAOImpl extends DAO implements DrinksDAO {
 
-    public DrinksDAOImpl() throws ClassNotFoundException {
+    public DrinksDAOImpl() {
     }
 
     @Override

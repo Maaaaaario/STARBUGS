@@ -5,6 +5,8 @@ public class Food extends Produce{
     private int sales;
     private int inventory;
 
+    private int dailyInventory;
+
     @Override
     public String toString() {
         String foodInform = "";
@@ -14,11 +16,12 @@ public class Food extends Produce{
         return foodInform;
     }
 
-    public Food(String id, String name, double price, String type, int sales, int inventory) {
+    public Food(String id, String name, double price, String type, int sales, int inventory, int dailyInventory) {
         super(id, name, price);
         this.type = type;
         this.sales = sales;
         this.inventory = inventory;
+        this.dailyInventory = dailyInventory;
     }
 
     public String getType() {
@@ -39,5 +42,13 @@ public class Food extends Produce{
 
     public void setInventory(int inventory) {
         this.inventory = inventory;
+    }
+
+    public int getDailyInventory() {
+        return dailyInventory;
+    }
+
+    public void setDailyInventory(int dailyInventory) {
+        this.dailyInventory = dailyInventory;
     }
 }

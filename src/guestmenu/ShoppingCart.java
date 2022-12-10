@@ -8,9 +8,20 @@ public class ShoppingCart {
     private final Produce shoppingCartProduce;
     private int shoppingCartProduceNumber;
 
-    public ShoppingCart(Produce shoppingCartProduce, int shoppingCartProduceNumber) {
+    private String produceType;
+
+    public String getProduceType() {
+        return produceType;
+    }
+
+    public void setProduceType(String produceType) {
+        this.produceType = produceType;
+    }
+
+    public ShoppingCart(Produce shoppingCartProduce, int shoppingCartProduceNumber, String produceType) {
         this.shoppingCartProduce = shoppingCartProduce;
         this.shoppingCartProduceNumber = shoppingCartProduceNumber;
+        this.produceType = produceType;
     }
 
     public Produce getShoppingCartProduce() {

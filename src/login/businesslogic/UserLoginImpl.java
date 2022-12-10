@@ -14,7 +14,7 @@ import login.dao.UserLoginDAOImpl;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static guestmenu.CustomerMenu.customerMainMenu;
+import static guestmenu.CustomerMenu.*;
 
 /**
  * @title: UserLoginImpl
@@ -89,7 +89,7 @@ public class UserLoginImpl implements UserLogin{
                     System.out.println();
                     String id = userLoginDAO.getId(inputName);
                     // go to registered customer menu
-                    goToCustomerMenu(id,true);
+                    goToCustomerMenu(id);
                 } else {
                     System.out.println("The password is incorrect.");
 
@@ -188,11 +188,11 @@ public class UserLoginImpl implements UserLogin{
             // registration process
             String newId = register();
             // go to registered customer menu
-            goToCustomerMenu(newId,true);
+            goToCustomerMenu(newId);
         } else {
             System.out.println();
             // go to unregistered customer menu
-            goToCustomerMenu(null,false);
+            goToGuestMenu();
         }
     }
 
@@ -274,7 +274,7 @@ public class UserLoginImpl implements UserLogin{
         System.out.println("1: guest (non-registered customer)");
         System.out.println("2: registered customer");
         System.out.println("3: admin");
-        System.out.print("Your choise is: ");
+        System.out.print("Your choice is: ");
         String input = keyboardInput.nextLine().strip();
 
         if (!CheckUtils.isValidChoice(input, 1, 3)) {
@@ -291,10 +291,5 @@ public class UserLoginImpl implements UserLogin{
         }
 
         return userType;
-    }
-    private void goToCustomerMenu(String id,Boolean isRegistered) {
-//        ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
-        ArrayList<ShoppingCart> shoppingCartList= new ArrayList<>();
-        customerMainMenu(shoppingCartList,id,isRegistered);
     }
 }
