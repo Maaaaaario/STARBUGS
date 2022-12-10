@@ -4,12 +4,17 @@ import common.CheckUtils;
 import common.UserType;
 import common.dto.RegisterInfoDto;
 import common.dto.UserDto;
+import guestmenu.Produce;
+import guestmenu.ShoppingCart;
 import login.dao.UserDAO;
 import login.dao.UserDAOImpl;
 import login.dao.UserLoginDAO;
 import login.dao.UserLoginDAOImpl;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import static guestmenu.CustomerMenu.customerMainMenu;
 
 /**
  * @title: UserLoginImpl
@@ -81,6 +86,7 @@ public class UserLoginImpl implements UserLogin{
             } else {
                 if (correctPassword.equalsIgnoreCase(inputPassword)) {
                     //todo go to registered customer menu
+                    goToCustomerMenu("1",true);
                 } else {
                     System.out.println("The password is incorrect.");
 
@@ -174,8 +180,10 @@ public class UserLoginImpl implements UserLogin{
             // registration process
             register();
             //todo go to registered customer menu
+            goToCustomerMenu("1",true);
         } else {
             //todo go to unregistered customer menu
+            goToCustomerMenu("1",false);
         }
     }
 
@@ -272,5 +280,10 @@ public class UserLoginImpl implements UserLogin{
         }
 
         return userType;
+    }
+    private void goToCustomerMenu(String id,Boolean isRegistered) {
+        ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
+        ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
+        customerMainMenu(shoppingCartList,id,isRegistered);
     }
 }

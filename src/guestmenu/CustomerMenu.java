@@ -480,9 +480,8 @@ public class CustomerMenu {
         System.out.println("3");
     }
     public static void main(String[] args) {
-        keyboardInput = new Scanner (System.in);
-        ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
-        ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
-        customerMainMenu(shoppingCartList,"1",true);
+//        ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
+//        ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
+//        customerMainMenu(shoppingCartList,"1",true);
     }
 }
