@@ -17,5 +17,7 @@ public interface ReservationDAO {
 
     List<ReservationDTO> getAllReservation(String userId);
 
+    List<ReservationDTO> getAllReservation();
+
     void deleteReservation(int id);
 }

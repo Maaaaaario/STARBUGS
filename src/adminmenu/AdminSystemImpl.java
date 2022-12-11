@@ -4,14 +4,13 @@ import adminmenu.dao.AdminDAOImpl;
 import common.CheckUtils;
 import common.CommonUtils;
 import common.UserType;
-import common.dto.InventoryDTO;
-import common.dto.RegisterInfoDTO;
-import common.dto.SalesDTO;
-import common.dto.UserDTO;
+import common.dto.*;
 import login.dao.UserDAO;
 import login.dao.UserDAOImpl;
 import login.dao.UserLoginDAO;
 import login.dao.UserLoginDAOImpl;
+import reservation.dao.ReservationDAO;
+import reservation.dao.ReservationDAOImpl;
 
 import java.util.*;
 
@@ -277,13 +276,99 @@ public class AdminSystemImpl implements AdminSystem{
     
     private void reservationManagementMenu () {
         System.out.println("Welcome to reservation check menu, please choose what to do");
-        System.out.println ("Choice 1: Check existing reservations");
+        System.out.println ("Choice 1: Check upcoming reservations");
         System.out.println ("Choice 2: Add new reservation");
-        System.out.println ("Choice 3: Cancel existing reservation");
-        System.out.println ("Choice 4: Go to admin main menu");
+        System.out.println ("Choice 3: Go to admin main menu");
         Choice choice = CommonUtils.makeChoice (4, keyboardInput);
-        if (choice == Choice.CHOICE4)
-           adminMainMenu ();
+        System.out.println();
+        switch (choice) {
+            case CHOICE1 -> viewReservation();
+            case CHOICE2 -> addReservation();
+            default -> adminMainMenu();
+        }
+    }
+
+    private void viewReservation() {
+        System.out.println(SEPARATER);
+        System.out.println("Upcoming reservations");
+        System.out.println(SEPARATER);
+
+        ReservationDAO reservationDAO = new ReservationDAOImpl();
+        List<ReservationDTO> list = reservationDAO.getAllReservation();
+
+        if (list.size() == 0) {
+            System.out.println("There is no upcoming reservation.");
+
+        } else {
+            String formatInfo = CommonUtils.printFormat(4);
+            System.out.format(formatInfo, "No.", "Name", "People", "Time");
+            System.out.println();
+            for (int i = 0; i < list.size(); i++) {
+                System.out.format(formatInfo, i + 1, list.get(i).getUserName(), list.get(i).getNumberOfPeople(), list.get(i).getTime().toString());
+                System.out.println();
+            }
+
+            System.out.println("Please choose what to do.");
+            System.out.println("1: Cancel reservation");
+            System.out.println("2: Go back");
+
+            Choice choice = CommonUtils.makeChoice(2, keyboardInput);
+
+            if (choice == Choice.CHOICE1) {
+                System.out.println("Please enter reservation number.");
+                int num = CommonUtils.getIntFromKeyboard(1, list.size(), keyboardInput);
+
+                reservationDAO.deleteReservation(list.get(num - 1).getId());
+
+                System.out.println("reservation removed successfully.");
+
+            }
+        }
+
+        System.out.println();
+        reservationManagementMenu();
+    }
+
+    private void addReservation() {
+        System.out.println(SEPARATER);
+        System.out.println("New reservation");
+        System.out.println(SEPARATER);
+
+        // input name
+        System.out.println("Please enter customer name.");
+        System.out.print("Name: ");
+        String name = keyboardInput.nextLine().strip();
+
+        // get id
+        UserLoginDAO userLoginDAO = new UserLoginDAOImpl();
+        String id = userLoginDAO.getId(name, UserType.REGISTERED);
+
+        // customer not exist
+        if (CheckUtils.isNullOrEmpty(id)) {
+            System.out.println("Customer not exist.");
+
+        } else {
+            Date time = CommonUtils.getDateInput(keyboardInput);
+
+            ReservationDAO reservationDAO = new ReservationDAOImpl();
+
+            System.out.println("Please enter the number of people who will be present.");
+            int number = CommonUtils.getIntFromKeyboard(1, 20, keyboardInput);
+
+            int cnt = reservationDAO.getExistingReservation(time);
+
+            if (cnt == 0) {
+                ReservationDTO reservationDTO = new ReservationDTO(id, name, number, time);
+                reservationDAO.addNewReservation(reservationDTO);
+
+                System.out.println("Your reservation has been saved.");
+            } else {
+                System.out.println("The room has already been booked at this time.");
+            }
+        }
+
+        System.out.println();
+        reservationManagementMenu();
     }
     
     // This is the main menu of the administration page
