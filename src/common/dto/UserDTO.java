@@ -3,12 +3,12 @@ package common.dto;
 import common.UserType;
 
 /**
- * @title: UserDto
+ * @title: UserDTO
  * @Author Qihang Yin
  * @Date: 2022/11/30 20:18
  * @Version 1.0
  */
-public class UserDto {
+public class UserDTO {
 
     private String id;
 
@@ -18,7 +18,7 @@ public class UserDto {
 
     private UserType type;
 
-    public UserDto(String id, String name, String password, UserType type) {
+    public UserDTO(String id, String name, String password, UserType type) {
         this.id = id;
         this.name = name;
         this.password = password;
