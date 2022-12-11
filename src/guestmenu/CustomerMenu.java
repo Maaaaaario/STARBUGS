@@ -20,6 +20,25 @@ import java.util.Scanner;
 
 public class CustomerMenu {
     static Scanner keyboardInput; // Define the scanner used to get user input
+    private ArrayList<ShoppingCart> shoppingCartList;
+    private RegisterInfoDto registerInfo;
+
+    private Boolean isRegistered;
+
+    public CustomerMenu(ArrayList<ShoppingCart> shoppingCartList, RegisterInfoDto registerInfo, Boolean isRegistered) {
+        this.shoppingCartList = shoppingCartList;
+        this.registerInfo = registerInfo;
+        this.isRegistered = isRegistered;
+    }
+
+    public void setRegistered(Boolean registered) {
+        isRegistered = registered;
+    }
+
+    public void setRegisterInfo(RegisterInfoDto registerInfo) {
+        this.registerInfo = registerInfo;
+    }
+
     private String getOption() {
         System.out.println("Enter 1 to retry, enter 2 to go back.");
         System.out.print("[1/2]: ");
@@ -32,12 +51,11 @@ public class CustomerMenu {
         }
         return yourChoice;
     }
-    public static void buyFoodDrinksMenu (ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo) {
+    public void buyFoodDrinksMenu() {
         System.out.println("Welecome to food and/or drinks menu, please choose what to do");
         System.out.println("1: buy food");
         System.out.println("2: buy drinks");
         System.out.println("3: show shopping cart");
-        boolean isRegistered = registerInfo != null? true : false;
         if(isRegistered) {
             System.out.println(("4: get a free drink by using stamps"));
             System.out.println("5: Go to customer main menu");
@@ -49,17 +67,17 @@ public class CustomerMenu {
         String choice = enterChoice(1,options);
         if(isRegistered) {
             switch (choice) {
-                case "1" -> buyFoodMenu (shoppingCartList,registerInfo,null);
-                case "2" -> buyDrinksMenu(shoppingCartList,registerInfo,null, false);
-                case "3" -> shoppingCart(shoppingCartList,registerInfo);
-                case "4" -> getFreeDrinks(shoppingCartList,registerInfo,true);
-                case "5" -> customerMainMenu(shoppingCartList,registerInfo.getId(),true);
+                case "1" -> buyFoodMenu (null);
+                case "2" -> buyDrinksMenu(null, false);
+                case "3" -> shoppingCart();
+                case "4" -> getFreeDrinks();
+                case "5" -> customerMainMenu(registerInfo.getId());
             }
         } else {
             switch (choice) {
-                case "1" -> buyFoodMenu (shoppingCartList,registerInfo,null);
-                case "2" -> buyDrinksMenu(shoppingCartList,registerInfo,null, false);
-                case "3" -> shoppingCart(shoppingCartList,null);
+                case "1" -> buyFoodMenu (null);
+                case "2" -> buyDrinksMenu(null, false);
+                case "3" -> shoppingCart();
                 case "4" -> returnToLoginInterface();
             }
         }
@@ -69,7 +87,7 @@ public class CustomerMenu {
         UserLogin userLogin = new UserLoginImpl();
         userLogin.login();
     }
-    public static void getFreeDrinks(ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo,Boolean isRegistered) {
+    public void getFreeDrinks() {
         System.out.println("Do you want to use 10 stamps to get a free drinks");
         System.out.println("1. yes");
         System.out.println("2. no");
@@ -77,12 +95,12 @@ public class CustomerMenu {
         if(choice.equals("1")) {
             if(registerInfo.getStamps()<10) {
                 System.out.println("you don't have 10 stamps,we will return to main menu");
-                buyFoodDrinksMenu(shoppingCartList,registerInfo);
+                buyFoodDrinksMenu();
             } else {
-                buyDrinksMenu(shoppingCartList,registerInfo,null,true);
+                buyDrinksMenu(null,true);
             }
         } else {
-            buyFoodDrinksMenu(shoppingCartList,registerInfo);
+            buyFoodDrinksMenu();
         }
     }
     public static int getIntFromKeyboard () {
@@ -95,7 +113,7 @@ public class CustomerMenu {
             return getIntFromKeyboard (); // The method calls itself recursively to ensure the user makes valid input
         }
     }
-    public static String getStringFromKeyboard(){
+    public String getStringFromKeyboard(){
         String inputFromKeyboard = keyboardInput.nextLine();
         if(inputFromKeyboard.equals("")) {
             System.out.println ("Invalid input, please type in a name"); // Send warning to the user
@@ -145,7 +163,7 @@ public class CustomerMenu {
         }
         return null;
     }
-    public static Boolean isUsedVipStatus(RegisterInfoDto registerInfo) {
+    public Boolean isUsedVipStatus() {
         boolean vipStatus = registerInfo.getVipStatus();
         if(vipStatus) {
             System.out.println("Do you want to use your vip status or get one stamp");
@@ -160,13 +178,11 @@ public class CustomerMenu {
         }
         return false;
     }
-    public static void buyProduces (Produce produce, int number, ArrayList<ShoppingCart> shoppingCartList, RegisterInfoDto registerInfo,String type) {
+    public void buyProduces (Produce produce, int number, String type) {
         Boolean isUseVipStatus = false;
-        Boolean isRegistered = false;
-        if(registerInfo != null) {
-            isRegistered = true;
+        if(isRegistered) {
             if(registerInfo.getVipStatus()) {
-                isUseVipStatus = isUsedVipStatus(registerInfo);
+                isUseVipStatus = isUsedVipStatus();
             }
         }
 
@@ -187,20 +203,21 @@ public class CustomerMenu {
         if(choice.equals("1")) {
             if(type.equals("food")) {
                 foodDAO.updateInventory(produce.getId(),number);
+                foodDAO.updateSales(produce.getId(), number);
+            } else {
+                drinksDAO.updateSales(produce.getId(), number);
             }
         }
         switch (choice) {
-            case "1" -> payMoney (totalPrice,shoppingCartList,registerInfo,isUseVipStatus);
-            case "2" -> buyFoodDrinksMenu(shoppingCartList,registerInfo);
+            case "1" -> payMoney (totalPrice,isUseVipStatus);
+            case "2" -> buyFoodDrinksMenu();
         }
     }
-    public static void buyAllProducesInShoppingCart(ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo) {
+    public void buyAllProducesInShoppingCart() {
         Boolean isUseVipStatus = false;
-        Boolean isRegistered = false;
-        if(registerInfo != null) {
-            isRegistered = true;
+        if(isRegistered) {
             if(registerInfo.getVipStatus()) {
-                isUseVipStatus = isUsedVipStatus(registerInfo);
+                isUseVipStatus = isUsedVipStatus();
             }
         }
         double discount = isUseVipStatus && isRegistered? 0.95 : 1.0;
@@ -230,13 +247,16 @@ public class CustomerMenu {
                 int num = shoppingCart.getShoppingCartProduceNumber();
                 if(shoppingCart.getProduceType() == "food") {
                     foodDAO.updateInventory(shoppingCart.getShoppingCartProduce().getId(),shoppingCart.getShoppingCartProduceNumber());
+                    foodDAO.updateSales(shoppingCart.getShoppingCartProduce().getId(),shoppingCart.getShoppingCartProduceNumber());
+                } else {
+                    drinksDAO.updateSales(shoppingCart.getShoppingCartProduce().getId(),shoppingCart.getShoppingCartProduceNumber());
                 }
             }
             shoppingCartList.clear();
-            payMoney (totalPrice,shoppingCartList,registerInfo,isUseVipStatus);
+            payMoney (totalPrice,isUseVipStatus);
 
         } else {
-            buyFoodDrinksMenu(shoppingCartList,registerInfo);
+            buyFoodDrinksMenu();
         }
     }
     public static RegisterInfoDto updateStamps(RegisterInfoDto registerInfoDto) {
@@ -248,7 +268,7 @@ public class CustomerMenu {
         System.out.println("You are our Vip member now.");
         return registerInfoDto;
     }
-    public static void payMoney(double totalPrice, ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo,Boolean isUseVipStatus) {
+    public void payMoney(double totalPrice,Boolean isUseVipStatus) {
         System.out.println("pay successfully!");
         if(isUseVipStatus == false && registerInfo != null) {
             registerInfo = updateStamps(registerInfo);
@@ -258,10 +278,10 @@ public class CustomerMenu {
             System.out.println("you get a new stamp now");
         }
         System.out.println("we will return to the main menu later");
-        buyFoodDrinksMenu(shoppingCartList,registerInfo);
+        buyFoodDrinksMenu();
 
     }
-    public static void addToShoppingCart(Produce produce, int number, ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo, String pageType, String produceType) {
+    public void addToShoppingCart(Produce produce, int number, String pageType, String produceType) {
         ShoppingCart newShoppingCart = new ShoppingCart(produce,number,pageType);
         boolean flag = false;
         for(ShoppingCart shoppingCart: shoppingCartList) {
@@ -274,44 +294,37 @@ public class CustomerMenu {
             shoppingCartList.add(newShoppingCart);
         }
         System.out.println("add to shopping cart successfully");
-//        System.out.println("\t"+"name"+"\t"+"price"+"\t"+"number"+"\t");
-//        for(ShoppingCart shoppingCart: shoppingCartList) {
-//            String name = shoppingCart.getShoppingCartProduce().getName();
-//            double price = shoppingCart.getShoppingCartProduce().getPrice();
-//            int num = shoppingCart.getShoppingCartProduceNumber();
-//            System.out.println(name+"\t"+price+"\t"+num);
-//        }
         if(pageType == "food") {
-            buyFoodMenu(shoppingCartList,registerInfo,produceType);
+            buyFoodMenu(produceType);
         } else {
-            buyDrinksMenu(shoppingCartList,registerInfo,produceType,false);
+            buyDrinksMenu(produceType,false);
         }
     }
-    public static String chooseFoodType(ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo) {
+    public String chooseFoodType() {
         System.out.println("Welecome to buy food, please choose one type you want to eat");
-        ArrayList<String> foodTypes = showFoodTypes(shoppingCartList);
+        ArrayList<String> foodTypes = showFoodTypes();
         System.out.print ("\nplease input the number of the foodTypes: ");
         int id = getIntFromKeyboard()-1; // Get input choice from user
         String type = foodTypes.get(id);
 //        System.out.println("type: "+type);
         return type;
     }
-    public static  void buyFoodMenu(ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo,String foodType) {
+    public void buyFoodMenu(String foodType) {
         String type = foodType;
         if(type == null) {
-            type = chooseFoodType(shoppingCartList,registerInfo);
+            type = chooseFoodType();
         }
-        ArrayList<Food> foodList = searchFoodByType(type,shoppingCartList);
+        ArrayList<Food> foodList = searchFoodByType(type);
         System.out.println("1: choose a new type again");
         System.out.println("2: choose the food name to buy");
         System.out.println("3: return to buyFoodOrDrinksMenu");
         String choice = enterChoice(1,3);
         if(choice.equals("1")) {
-            type = chooseFoodType(shoppingCartList,registerInfo);
-            buyFoodMenu(shoppingCartList,registerInfo,type);
+            type = chooseFoodType();
+            buyFoodMenu(type);
         }
         if(choice.equals("3")) {
-            buyFoodDrinksMenu(shoppingCartList, registerInfo);
+            buyFoodDrinksMenu();
         }
         System.out.println("please enter the Food Name you want to buy");
         String foodName = getStringFromKeyboard();
@@ -336,9 +349,9 @@ public class CustomerMenu {
         System.out.println("3: return to buyFoodOrDrinksMenu");
         choice = enterChoice(1,3);
         switch (choice) {
-            case "1" -> buyProduces (food,number,shoppingCartList,registerInfo,"food");
-            case "2" -> addToShoppingCart(food,number,shoppingCartList,registerInfo,"food",type);
-            case "3" -> buyFoodDrinksMenu(shoppingCartList,registerInfo);
+            case "1" -> buyProduces (food,number,"food");
+            case "2" -> addToShoppingCart(food,number,"food",type);
+            case "3" -> buyFoodDrinksMenu();
         }
     }
     public static String enterChoice(int min,int max) {
@@ -351,31 +364,31 @@ public class CustomerMenu {
         }
         return input;
     }
-    public static String chooseDrinksType(ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo) {
+    public String chooseDrinksType() {
         System.out.println("Welecome to buy drinks, please choose one type you want to drink");
-        ArrayList<String> drinksTypes = getDrinksTypes(shoppingCartList);
+        ArrayList<String> drinksTypes = getDrinksTypes();
         System.out.print ("\nplease input the number of the foodTypes: ");
         int id = getIntFromKeyboard()-1; // Get input choice from user
         String type = drinksTypes.get(id);
 //        System.out.println("type: "+type);
         return type;
     }
-    public static  void buyDrinksMenu(ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo,String drinksType,Boolean isFree) {
+    public void buyDrinksMenu(String drinksType,Boolean isFree) {
         String type = drinksType;
         if(type == null) {
-            type = chooseDrinksType(shoppingCartList,registerInfo);
+            type = chooseDrinksType();
         }
-        ArrayList<Drinks> drinksList = searchDrinksByType(type,shoppingCartList);
+        ArrayList<Drinks> drinksList = searchDrinksByType(type);
         System.out.println("1: choose a new type again");
         System.out.println("2: choose the drink name to buy");
         System.out.println("3: return to buyFoodOrDrinksMenu");
         String choice = enterChoice(1,3);
         if(choice.equals("1")) {
-            type = chooseDrinksType(shoppingCartList,registerInfo);
-            buyDrinksMenu(shoppingCartList,registerInfo,type,isFree);
+            type = chooseDrinksType();
+            buyDrinksMenu(type,isFree);
         }
         if(choice.equals("3")) {
-            buyFoodDrinksMenu(shoppingCartList, registerInfo);
+            buyFoodDrinksMenu();
         }
         System.out.println("please enter the Drinks Name you want to buy");
         String drinksName = getStringFromKeyboard();
@@ -390,7 +403,7 @@ public class CustomerMenu {
             UserLoginDAO userLoginDAO = new UserLoginDAOImpl();
             userLoginDAO.updateRegisterStamps(registerInfo.getId(),0);
             registerInfo = userLoginDAO.getRegisterInfo(registerInfo.getId());
-            buyFoodDrinksMenu(shoppingCartList, registerInfo);
+            buyFoodDrinksMenu();
         }
         System.out.println("please input the number of drinks you want to buy");
         int number = getIntFromKeyboard(); // Get input choice from user
@@ -400,19 +413,19 @@ public class CustomerMenu {
         System.out.println("3: return to buyFoodOrDrinksMenu");
         choice = enterChoice(1,3);
         switch (choice) {
-            case "1" -> buyProduces(drinks, number, shoppingCartList, registerInfo,"drinks");
-            case "2" -> addToShoppingCart(drinks, number, shoppingCartList, registerInfo, "drinks",type);
-            case "3" -> buyFoodDrinksMenu(shoppingCartList, registerInfo);
+            case "1" -> buyProduces(drinks, number, "drinks");
+            case "2" -> addToShoppingCart(drinks, number, "drinks",type);
+            case "3" -> buyFoodDrinksMenu();
         }
     }
-    public static void shoppingCart(ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo) {
+    public void shoppingCart() {
         String userId = registerInfo != null ? registerInfo.getId() : null;
         if(shoppingCartList.size() == 0) {
             System.out.println("you don't add anythind in the shopping cart");
             System.out.println("please enter 1 to return");
             String choice = enterChoice(1,1);
             if(choice.equals("1")) {
-                buyFoodDrinksMenu(shoppingCartList,registerInfo);
+                buyFoodDrinksMenu();
             }
         }
         String formatInfo = printFormat(3);
@@ -431,8 +444,8 @@ public class CustomerMenu {
         String choice = enterChoice(1,2);
 
         switch (choice) {
-            case "1" -> buyAllProducesInShoppingCart (shoppingCartList,registerInfo);
-            case "2" -> buyFoodDrinksMenu(shoppingCartList,registerInfo);
+            case "1" -> buyAllProducesInShoppingCart ();
+            case "2" -> buyFoodDrinksMenu();
         }
     }
     public static String printFormat(int number) {
@@ -446,7 +459,7 @@ public class CustomerMenu {
 //        String column3Format = "%-12s";
 //        String formatInfo = column1Format + column2Format + column3Format;
     }
-    public static void printFoodList(ArrayList<Food> foodList) {
+    public void printFoodList(ArrayList<Food> foodList) {
         String formatInfo = printFormat(3);
         System.out.format(formatInfo,"name","price","type");
         System.out.println();
@@ -455,7 +468,7 @@ public class CustomerMenu {
             System.out.println();
         }
     }
-    public static void printDrinksList(ArrayList<Drinks> drinksList){
+    public void printDrinksList(ArrayList<Drinks> drinksList){
         String formatInfo = printFormat(3);
         System.out.format(formatInfo,"name","price","type");
         System.out.println();
@@ -464,7 +477,7 @@ public class CustomerMenu {
             System.out.println();
         }
     }
-    public static ArrayList<String> showFoodTypes(ArrayList<ShoppingCart> shoppingCartList) {
+    public ArrayList<String> showFoodTypes() {
         FoodDAO foodDAO = new FoodDAOImpl();
         ArrayList<String> foodTypes = foodDAO.getFoodTypes();
         int index = 1;
@@ -478,7 +491,7 @@ public class CustomerMenu {
         }
         return foodTypes;
     }
-    public static ArrayList<String> getDrinksTypes(ArrayList<ShoppingCart> shoppingCartList) {
+    public ArrayList<String> getDrinksTypes() {
         DrinksDAO drinksDAO = new DrinksDAOImpl();
         ArrayList<String> drinksTypes = drinksDAO.getDrinksTypes();
         int index = 1;
@@ -514,13 +527,13 @@ public class CustomerMenu {
 //            throw new RuntimeException(e);
 //        }
 //    }
-    public static ArrayList<Food> searchFoodByType(String type, ArrayList<ShoppingCart> shoppingCartList) {
+    public ArrayList<Food> searchFoodByType(String type) {
         FoodDAO foodDAO = new FoodDAOImpl();
         ArrayList<Food> foodList= foodDAO.getAllFoodByType(type);
         printFoodList(foodList);
         return foodList;
     }
-    public static ArrayList<Drinks> searchDrinksByType(String type, ArrayList<ShoppingCart> shoppingCartList) {
+    public ArrayList<Drinks> searchDrinksByType(String type) {
         DrinksDAO drinksDAO = new DrinksDAOImpl();
         ArrayList<Drinks> drinksList= drinksDAO.getAllDrinksByType(type);
         printDrinksList(drinksList);
@@ -549,15 +562,13 @@ public class CustomerMenu {
     public static void remainUnchanged() {
 
     }
-    public static void guestMainMenu(ArrayList<ShoppingCart> shoppingCartList,boolean isRegistered) {
-
-    }
-    public static void customerMainMenu (ArrayList<ShoppingCart> shoppingCartList,String userId, boolean isRegistered) {
+    public void customerMainMenu (String userId) {
         System.out.println("Welcome to customer main menu");
         RegisterInfoDto registerInfo = null;
         Boolean vipStatus = false;
         if(isRegistered) {
             registerInfo = getRegisterInfoById(userId);
+            setRegisterInfo(registerInfo);
             System.out.println("your current loyalty status is : "+ registerInfo.getStamps());
             vipStatus = registerInfo.getVipStatus();
             if(!vipStatus) {
@@ -586,29 +597,30 @@ public class CustomerMenu {
         System.out.println ("4: Exit the system");
         String choice = enterChoice(1,4);
         switch (choice) {
-            case "1" -> buyFoodDrinksMenu (shoppingCartList,registerInfo);
+            case "1" -> buyFoodDrinksMenu ();
             case "2" -> ReserveRoomMenu ();
             case "3" -> UnregisterMenu ();
             case "4" -> returnToLoginInterface();
         }
     }
-    public static void ReserveRoomMenu() {
+    public void ReserveRoomMenu() {
         System.out.println("2");
     }
-    public static void UnregisterMenu(){
+    public void UnregisterMenu(){
         System.out.println("3");
     }
-    public static void goToGuestMenu() {
+    public void goToGuestMenu() {
         keyboardInput = new Scanner (System.in);
-        ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
-        ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
-        buyFoodDrinksMenu (shoppingCartList,null);
+
+        buyFoodDrinksMenu();
     }
-    public static void goToCustomerMenu(String userId) {
+
+    public void goToCustomerMenu(String userId) {
         keyboardInput = new Scanner (System.in);
         ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
         ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
-        customerMainMenu(shoppingCartList,userId,true);
+        new CustomerMenu(shoppingCartList,null,false);
+        customerMainMenu(userId);
     }
     public static void main(String[] args) {
 //        ArrayList<Produce> selectedProduces = new ArrayList<Produce>();

@@ -158,4 +158,19 @@ public class FoodDAOImpl extends DAO implements FoodDAO {
     public void delete(String id) {
 
     }
+
+    @Override
+    public void updateSales(String id, int number) {
+        String sql = "update food set sales = sales + ? where id = ?";
+        try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setInt(1, number);
+            ps.setString(2, id);
+
+            ps.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

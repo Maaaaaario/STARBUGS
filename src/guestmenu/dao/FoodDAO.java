@@ -16,9 +16,11 @@ public interface FoodDAO {
 
     void add(Food dto);
 
-    void updateInventory(String id, int inventory);
+    void updateInventory(String id, int number);
 
     void delete(String id);
+
+    void updateSales(String id,int number);
 
 
 }

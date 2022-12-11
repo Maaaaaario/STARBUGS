@@ -17,4 +17,5 @@ public interface DrinksDAO {
     void update(String id);
 
     void delete(String id);
+    void updateSales(String id,int number);
 }

@@ -4,10 +4,7 @@ import common.DAO;
 import guestmenu.Drinks;
 import guestmenu.Drinks;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class DrinksDAOImpl extends DAO implements DrinksDAO {
@@ -144,5 +141,20 @@ public class DrinksDAOImpl extends DAO implements DrinksDAO {
     @Override
     public void delete(String id) {
 
+    }
+
+    @Override
+    public void updateSales(String id, int number) {
+        String sql = "update drinks set sales = sales + ? where id = ?";
+        try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setInt(1, number);
+            ps.setString(2, id);
+
+            ps.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

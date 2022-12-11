@@ -35,7 +35,4 @@ public class ShoppingCart {
     public void setShoppingCartProduceNumber(int shoppingCartProduceNumber) {
         this.shoppingCartProduceNumber = shoppingCartProduceNumber;
     }
-    public void addShoppingCartProduce(Produce produce,int number) {
-
-    }
 }

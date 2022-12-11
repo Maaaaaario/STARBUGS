@@ -5,6 +5,8 @@ import common.CheckUtils;
 import common.UserType;
 import common.dto.RegisterInfoDto;
 import common.dto.UserDto;
+import guestmenu.CustomerMenu;
+import guestmenu.Produce;
 import guestmenu.ShoppingCart;
 import login.dao.UserDAO;
 import login.dao.UserDAOImpl;
@@ -89,7 +91,10 @@ public class UserLoginImpl implements UserLogin{
                     System.out.println();
                     String id = userLoginDAO.getId(inputName);
                     // go to registered customer menu
-                    goToCustomerMenu(id);
+                    ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
+                    ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
+                    CustomerMenu customerMenu = new CustomerMenu(shoppingCartList,null,true);
+                    customerMenu.goToCustomerMenu(id);
                 } else {
                     System.out.println("The password is incorrect.");
 
@@ -184,15 +189,19 @@ public class UserLoginImpl implements UserLogin{
     private void guestLogin() {
         System.out.println("Do you want to become registered?");
         String toRegister = getYesOrNo();
+        ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
+        ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
         if ("Y".equalsIgnoreCase(toRegister)) {
             // registration process
             String newId = register();
             // go to registered customer menu
-            goToCustomerMenu(newId);
+            CustomerMenu customerMenu = new CustomerMenu(shoppingCartList,null,true);
+            customerMenu.goToCustomerMenu(newId);
         } else {
             System.out.println();
             // go to unregistered customer menu
-            goToGuestMenu();
+            CustomerMenu customerMenu = new CustomerMenu(shoppingCartList,null,false);
+            customerMenu.goToGuestMenu();
         }
     }
 
