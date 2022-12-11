@@ -1,38 +1,34 @@
 package guestmenu;
 
-import adminmenu.Product;
-
-import java.util.ArrayList;
-
 public class ShoppingCart {
-    private final Produce shoppingCartProduce;
-    private int shoppingCartProduceNumber;
+    private final Product shoppingCartProduct;
+    private int shoppingCartProductNumber;
 
-    private String produceType;
+    private String productType;
 
-    public String getProduceType() {
-        return produceType;
+    public String getProductType() {
+        return productType;
     }
 
-    public void setProduceType(String produceType) {
-        this.produceType = produceType;
+    public void setProductType(String productType) {
+        this.productType = productType;
     }
 
-    public ShoppingCart(Produce shoppingCartProduce, int shoppingCartProduceNumber, String produceType) {
-        this.shoppingCartProduce = shoppingCartProduce;
-        this.shoppingCartProduceNumber = shoppingCartProduceNumber;
-        this.produceType = produceType;
+    public ShoppingCart(Product shoppingCartProduct, int shoppingCartProductNumber, String productType) {
+        this.shoppingCartProduct = shoppingCartProduct;
+        this.shoppingCartProductNumber = shoppingCartProductNumber;
+        this.productType = productType;
     }
 
-    public Produce getShoppingCartProduce() {
-        return shoppingCartProduce;
+    public Product getShoppingCartProduct() {
+        return shoppingCartProduct;
     }
 
-    public int getShoppingCartProduceNumber() {
-        return shoppingCartProduceNumber;
+    public int getShoppingCartProductNumber() {
+        return shoppingCartProductNumber;
     }
 
-    public void setShoppingCartProduceNumber(int shoppingCartProduceNumber) {
-        this.shoppingCartProduceNumber = shoppingCartProduceNumber;
+    public void setShoppingCartProductNumber(int shoppingCartProductNumber) {
+        this.shoppingCartProductNumber = shoppingCartProductNumber;
     }
 }

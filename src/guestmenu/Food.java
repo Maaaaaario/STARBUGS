@@ -1,6 +1,6 @@
 package guestmenu;
 
-public class Food extends Produce{
+public class Food extends Product {
     private final String type;
     private int sales;
     private int inventory;

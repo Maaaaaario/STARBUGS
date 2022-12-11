@@ -1,6 +1,6 @@
 package guestmenu;
 
-public class Produce {
+public class Product {
     private final String id;
     private final String name;
     private final double price;
@@ -14,7 +14,7 @@ public class Produce {
         return produceInform;
     }
 
-    public Produce(String id, String name, double price) {
+    public Product(String id, String name, double price) {
         this.id = id;
         this.name = name;
         this.price = price;

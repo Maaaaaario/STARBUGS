@@ -140,12 +140,13 @@ public class UserLoginDAOImpl extends DAO implements UserLoginDAO{
     }
 
     @Override
-    public void updateRegisterVipStatus(String id,Boolean status) {
-        String sql = "update register_info set vip_status = ? where id = ?";
+    public void updateRegisterVipStatus(String id, Boolean status, java.util.Date vipExpireDate) {
+        String sql = "update register_info set vip_status = ?, vip_expire_date = ? where id = ?";
         try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
 
             ps.setInt(1, status? 1 : 0);
-            ps.setString(2, id);
+            ps.setDate(2, new Date(vipExpireDate.getTime()));
+            ps.setString(3, id);
 
             ps.execute();
 

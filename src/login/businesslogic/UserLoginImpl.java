@@ -7,8 +7,7 @@ import common.CommonUtils;
 import common.UserType;
 import common.dto.RegisterInfoDTO;
 import common.dto.UserDTO;
-import guestmenu.CustomerMenu;
-import guestmenu.Produce;
+import guestmenu.Product;
 import guestmenu.ShoppingCart;
 import login.dao.UserDAO;
 import login.dao.UserDAOImpl;
@@ -93,10 +92,7 @@ public class UserLoginImpl implements UserLogin{
                     System.out.println();
                     String id = userLoginDAO.getId(inputName, UserType.REGISTERED);
                     // go to registered customer menu
-                    ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
-                    ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
-                    CustomerMenu customerMenu = new CustomerMenu(shoppingCartList,null,true);
-                    customerMenu.goToCustomerMenu(id);
+                    goToCustomerMenu(id);
                 } else {
                     System.out.println("The password is incorrect.");
 
@@ -192,20 +188,18 @@ public class UserLoginImpl implements UserLogin{
     private void guestLogin() {
         System.out.println("Do you want to become registered?");
         String toRegister = CommonUtils.getYesOrNo(keyboardInput);
-        ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
+        ArrayList<Product> selectedProducts = new ArrayList<Product>();
         ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
 
         if ("Y".equalsIgnoreCase(toRegister)) {
             // registration process
             String newId = register();
             // go to registered customer menu
-            CustomerMenu customerMenu = new CustomerMenu(shoppingCartList,null,true);
-            customerMenu.goToCustomerMenu(newId);
+            goToCustomerMenu(newId);
         } else {
             System.out.println();
             // go to unregistered customer menu
-            CustomerMenu customerMenu = new CustomerMenu(shoppingCartList,null,false);
-            customerMenu.goToGuestMenu();
+            goToGuestMenu();
         }
     }
 

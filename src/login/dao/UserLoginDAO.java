@@ -3,6 +3,8 @@ package login.dao;
 import common.UserType;
 import common.dto.RegisterInfoDTO;
 
+import java.util.Date;
+
 public interface UserLoginDAO {
 
     String getMaxId();
@@ -17,7 +19,7 @@ public interface UserLoginDAO {
 
     RegisterInfoDTO getRegisterInfo(String id);
 
-    void updateRegisterVipStatus(String id,Boolean status);
+    void updateRegisterVipStatus(String id, Boolean status, Date date);
 
     void updateRegisterStamps(String id,int stamps);
 }
