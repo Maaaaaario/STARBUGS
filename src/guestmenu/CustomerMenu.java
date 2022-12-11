@@ -16,6 +16,8 @@ import login.dao.UserDAO;
 import login.dao.UserDAOImpl;
 import login.dao.UserLoginDAO;
 import login.dao.UserLoginDAOImpl;
+import reservation.Reservation;
+import reservation.ReservationImpl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -612,7 +614,8 @@ public class CustomerMenu{
         }
     }
     private void ReserveRoomMenu() {
-        System.out.println("2");
+        Reservation reservation = new ReservationImpl();
+        reservation.reservationMenu(registerInfo.getId());
     }
     private void UnregisterMenu(){
         System.out.println("Do you want to remove yourselves from the coffee shop’s group");
