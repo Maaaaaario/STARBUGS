@@ -18,24 +18,8 @@ import java.util.*;
 public class AdminSystemImpl implements AdminSystem{
 
     private static final String SEPARATER = "------------------------------";
-    static Scanner keyboardInput; // Define the scanner used to get user input
-    
-    // The method below is used to enable user make choices in UI, number of choices depends on number of functions involved
-    public static Choice makeChoice (int numberOfChoices) {
-        
-        // Send reminder to the user, the remainder is sent according to number of choices involved in the current menu
-        System.out.print ("\nYour choice is: ");
-        String inputChoice = keyboardInput.nextLine().strip(); // Get input choice from user
+    private static Scanner keyboardInput; // Define the scanner used to get user input
 
-        // If the user input is not in the valid range
-        if (!CheckUtils.isValidChoice(inputChoice, 1, numberOfChoices)) {
-            System.out.println("Invalid input, please try again"); // Send warning to the user
-            return makeChoice (numberOfChoices); // The method calls itself to let the user do input again
-        }
-        
-        // Give value to the enum variable according to what the user typed in
-        return Choice.fromValue(inputChoice);
-    }
     
     // The method below is used get a float number from user
     private double getDoubleFromKeyboard() {
@@ -57,26 +41,6 @@ public class AdminSystemImpl implements AdminSystem{
         return input;
     }
     
-    // The method below is used to get an integer number from user
-    private int getIntFromKeyboard (int lowerBound, int upperBound) {
-        String inputFromKeyboard = keyboardInput.nextLine().strip();
-        int inputNumber;
-        try {
-            inputNumber =  Integer.parseInt(inputFromKeyboard); // If the input from user is integer number, just return it
-        }
-        catch (NumberFormatException ex) { // If the user input is invalid, catch the exception
-            System.out.println ("Invalid input, please type in an integer."); // Send warning to the user
-            return getIntFromKeyboard(lowerBound, upperBound); // The method calls itself recursively to ensure the user makes valid input
-        }
-
-        if (inputNumber < lowerBound || inputNumber > upperBound) {
-            System.out.println("The number should not be less than " + lowerBound + " or greater than " + upperBound + " , please try again.");
-            return getIntFromKeyboard(lowerBound, upperBound);
-        }
-
-        return inputNumber;
-    }
-    
     // The method below is a menu used to let the user make choices
     private void customerManagementMenu() {
         System.out.println(SEPARATER);
@@ -86,7 +50,7 @@ public class AdminSystemImpl implements AdminSystem{
         System.out.println("1: Add new registration");
         System.out.println("2: Remove existing registration");
         System.out.println("3: Go to admin main menu");
-        Choice choice = makeChoice (3); // Call the pre-defined method to let the user make choice
+        Choice choice = CommonUtils.makeChoice (3, keyboardInput); // Call the pre-defined method to let the user make choice
         if (choice == Choice.CHOICE1) { // The program reacts according to the choice made by the user
             addNewRegistration();
         } else if (choice == Choice.CHOICE2) {
@@ -205,11 +169,11 @@ public class AdminSystemImpl implements AdminSystem{
         System.out.println("1: Edit price");
         System.out.println("2: Go back");
 
-        Choice choice = makeChoice (2);
+        Choice choice = CommonUtils.makeChoice (2, keyboardInput);
 
         if (choice == Choice.CHOICE1) {
             System.out.println("Please enter product number.");
-            int num = getIntFromKeyboard(1, list.size());
+            int num = CommonUtils.getIntFromKeyboard(1, list.size(), keyboardInput);
 
             System.out.println("Please enter the new price.");
             double newPrice = getDoubleFromKeyboard();
@@ -233,7 +197,7 @@ public class AdminSystemImpl implements AdminSystem{
         System.out.println("1: Show all inventory and price");
 //        System.out.println("2: Offer a discount");
         System.out.println("2: Go to admin main menu");
-        Choice choice = makeChoice (2);
+        Choice choice = CommonUtils.makeChoice (2, keyboardInput);
         if (choice == Choice.CHOICE1) {
             System.out.println();
             checkRemainingNumberOfProduct();
@@ -262,18 +226,18 @@ public class AdminSystemImpl implements AdminSystem{
         System.out.println("1: Adjust daily inventory");
         System.out.println("2: Go back");
 
-        Choice choice = makeChoice (2);
+        Choice choice = CommonUtils.makeChoice (2, keyboardInput);
 
         if (choice == Choice.CHOICE1) {
             System.out.println("Please enter product number.");
-            int num = getIntFromKeyboard(1, list.size());
+            int num = CommonUtils.getIntFromKeyboard(1, list.size(), keyboardInput);
             while (list.get(num-1).getDailyInventory() < 0) {
                 System.out.println("Can't change the inventory of drinks, please try again.");
-                num = getIntFromKeyboard(1, list.size());
+                num = CommonUtils.getIntFromKeyboard(1, list.size(), keyboardInput);
             }
 
             System.out.println("Please enter the new daily inventory.");
-            int newInventory = getIntFromKeyboard(0, Integer.MAX_VALUE);
+            int newInventory = CommonUtils.getIntFromKeyboard(0, Integer.MAX_VALUE, keyboardInput);
 
             adminDAO.updateDailyInventory(list.get(num-1).getName(), newInventory);
 
@@ -301,7 +265,7 @@ public class AdminSystemImpl implements AdminSystem{
         System.out.println ("Please choose what to do.");
         System.out.println("1: Show all annual sales and daily inventory");
         System.out.println("2: Go to admin main menu");
-        Choice choice = makeChoice (2);
+        Choice choice = CommonUtils.makeChoice (2, keyboardInput);
         if (choice == Choice.CHOICE1) {
             System.out.println();
             checkSales();
@@ -317,7 +281,7 @@ public class AdminSystemImpl implements AdminSystem{
         System.out.println ("Choice 2: Add new reservation");
         System.out.println ("Choice 3: Cancel existing reservation");
         System.out.println ("Choice 4: Go to admin main menu");
-        Choice choice = makeChoice (4);
+        Choice choice = CommonUtils.makeChoice (4, keyboardInput);
         if (choice == Choice.CHOICE4)
            adminMainMenu ();
     }
@@ -334,7 +298,7 @@ public class AdminSystemImpl implements AdminSystem{
         System.out.println ("4: Go to reservation management menu");
         System.out.println ("5: Refresh inventory");
         System.out.println ("6: Exit the system");
-        Choice choice = makeChoice(6);
+        Choice choice = CommonUtils.makeChoice (6, keyboardInput);
         System.out.println();
         switch (choice) {
             case CHOICE1 -> customerManagementMenu();
