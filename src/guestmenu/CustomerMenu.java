@@ -579,7 +579,7 @@ public class CustomerMenu{
             registerInfo = getRegisterInfoById(userId);
             System.out.println("userId"+userId);
             setRegisterInfo(registerInfo);
-            System.out.println("your current loyalty status is : "+ registerInfo.getStamps());
+            System.out.println("Your current number of loyalty stamps is : "+ registerInfo.getStamps());
             vipStatus = registerInfo.getVipStatus();
             if(!vipStatus) {
                 System.out.println("Do you want to join us as a Vip member");
@@ -603,7 +603,7 @@ public class CustomerMenu{
         System.out.println ("Welcome to customer main menu, please choose what to do");
         System.out.println ("1: Go to buy food and/or drinks menu");
         System.out.println ("2: Reserve the private room");
-        System.out.println ("3: Un-register Menu");
+        System.out.println ("3: Un-register");
         System.out.println ("4: Exit the system");
         String choice = enterChoice(1,4);
         switch (choice) {

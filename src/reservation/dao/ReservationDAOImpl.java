@@ -26,7 +26,7 @@ public class ReservationDAOImpl extends DAO implements ReservationDAO {
             ps.setString(1, dto.getUserId());
             ps.setString(2, dto.getUserName());
             ps.setInt(3, dto.getNumberOfPeople());
-            ps.setDate(4, new Date(dto.getTime().getTime()));
+            ps.setTimestamp(4, new Timestamp(dto.getTime().getTime()));
 
             ps.execute();
 
@@ -91,7 +91,7 @@ public class ReservationDAOImpl extends DAO implements ReservationDAO {
                 int id = rs.getInt("id");
                 String name = rs.getString("user_name");
                 int people = rs.getInt("people");
-                java.util.Date time = new java.util.Date(rs.getDate("date").getTime());
+                java.util.Date time = new java.util.Date(rs.getTimestamp("time").getTime());
 
                 ReservationDTO reservationDTO = new ReservationDTO(userId, name, people, time);
                 reservationDTO.setId(id);
@@ -120,7 +120,7 @@ public class ReservationDAOImpl extends DAO implements ReservationDAO {
                 String userId = rs.getString("user_id");
                 String name = rs.getString("user_name");
                 int people = rs.getInt("people");
-                java.util.Date time = new java.util.Date(rs.getDate("date").getTime());
+                java.util.Date time = new java.util.Date(rs.getTimestamp("time").getTime());
 
                 ReservationDTO reservationDTO = new ReservationDTO(userId, name, people, time);
                 reservationDTO.setId(id);

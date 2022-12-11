@@ -80,6 +80,7 @@ public class CommonUtils {
 
         String timeToParse = inputDate + " " + inputHour + ":00:00";
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        format.setLenient(false);
         Date newTime;
         try {
             newTime = format.parse(timeToParse);

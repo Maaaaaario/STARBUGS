@@ -275,10 +275,13 @@ public class AdminSystemImpl implements AdminSystem{
     }
     
     private void reservationManagementMenu () {
-        System.out.println("Welcome to reservation check menu, please choose what to do");
-        System.out.println ("Choice 1: Check upcoming reservations");
-        System.out.println ("Choice 2: Add new reservation");
-        System.out.println ("Choice 3: Go to admin main menu");
+        System.out.println(SEPARATER);
+        System.out.println("Welcome to reservation management menu!");
+        System.out.println(SEPARATER);
+        System.out.println("Please choose what to do.");
+        System.out.println ("1: Check upcoming reservations");
+        System.out.println ("2: Add new reservation");
+        System.out.println ("3: Go to admin main menu");
         Choice choice = CommonUtils.makeChoice (4, keyboardInput);
         System.out.println();
         switch (choice) {
