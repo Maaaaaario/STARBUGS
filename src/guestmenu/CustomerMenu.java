@@ -83,7 +83,7 @@ public class CustomerMenu {
         }
 
     }
-    public static void returnToLoginInterface() {
+    public void returnToLoginInterface() {
         UserLogin userLogin = new UserLoginImpl();
         userLogin.login();
     }
@@ -103,7 +103,7 @@ public class CustomerMenu {
             buyFoodDrinksMenu();
         }
     }
-    public static int getIntFromKeyboard () {
+    public int getIntFromKeyboard () {
         String inputFromKeyboard = keyboardInput.nextLine();
         try {
             return Integer.parseInt(inputFromKeyboard); // If the input from user is integer number, just return it
@@ -121,7 +121,7 @@ public class CustomerMenu {
         }
         return inputFromKeyboard;
     }
-    public static boolean isExistFoodName (String name, ArrayList<Food> foodList) {
+    public boolean isExistFoodName (String name, ArrayList<Food> foodList) {
         for (Produce i : foodList) {
             if (i.getName().equals(name)) {
                 return true;
@@ -129,7 +129,7 @@ public class CustomerMenu {
         }
         return false;
     }
-    public static Drinks searchDrinksByName (String name, ArrayList<Drinks> drinksList) {
+    public Drinks searchDrinksByName (String name, ArrayList<Drinks> drinksList) {
         for (Drinks drinks : drinksList) {
             if (drinks.getName().equals(name)) {
                 return drinks;
@@ -137,7 +137,7 @@ public class CustomerMenu {
         }
         return null;
     }
-    public static boolean isEnoughInventory (String newName, ArrayList<Food> foodList, int inventory) {
+    public boolean isEnoughInventory (String newName, ArrayList<Food> foodList, int inventory) {
         for (Food i : foodList) {
             if (i.getName().equals(newName)) {
                 if(i.getInventory()>=inventory) {
@@ -147,7 +147,7 @@ public class CustomerMenu {
         }
         return false;
     }
-    public static Food getFoodByName(ArrayList<Food> foodList, String name) {
+    public Food getFoodByName(ArrayList<Food> foodList, String name) {
         for (Food food: foodList) {
             if (food.getName().equals(name)) {
                 return food;
@@ -155,7 +155,7 @@ public class CustomerMenu {
         }
         return null;
     }
-    public static Drinks getDrinksByName(ArrayList<Drinks> drinksList, String name) {
+    public Drinks getDrinksByName(ArrayList<Drinks> drinksList, String name) {
         for (Drinks drinks: drinksList) {
             if (drinks.getName().equals(name)) {
                 return drinks;
@@ -259,7 +259,7 @@ public class CustomerMenu {
             buyFoodDrinksMenu();
         }
     }
-    public static RegisterInfoDto updateStamps(RegisterInfoDto registerInfoDto) {
+    public RegisterInfoDto updateStamps(RegisterInfoDto registerInfoDto) {
         int stamps = registerInfoDto.getStamps();
         stamps+=1;
         UserLoginDAO userLoginDAO = new UserLoginDAOImpl();
@@ -547,19 +547,19 @@ public class CustomerMenu {
 //            System.out.println("\t"+drinks.getId()+"\t"+drinks.getName()+"\t"+drinks.getPrice()+"\t"+drinks.getType()+"\t");
 //        }
 //    }
-    public static RegisterInfoDto getRegisterInfoById(String userId) {
+    public RegisterInfoDto getRegisterInfoById(String userId) {
         UserLoginDAO userLoginDAO = new UserLoginDAOImpl();
         RegisterInfoDto registerInfo = userLoginDAO.getRegisterInfo(userId);
         return registerInfo;
     }
-    public static RegisterInfoDto updateVipStatus(String userId,boolean status) {
+    public RegisterInfoDto updateVipStatus(String userId,boolean status) {
         UserLoginDAO userLoginDAO = new UserLoginDAOImpl();
         userLoginDAO.updateRegisterVipStatus(userId,status);
         RegisterInfoDto registerInfo = userLoginDAO.getRegisterInfo(userId);
         System.out.println("You are our Vip member now.");
         return registerInfo;
     }
-    public static void remainUnchanged() {
+    public void remainUnchanged() {
 
     }
     public void customerMainMenu (String userId) {
