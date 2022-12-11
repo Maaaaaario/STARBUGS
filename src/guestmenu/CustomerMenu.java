@@ -30,6 +30,8 @@ public class CustomerMenu{
     private ArrayList<ShoppingCart> shoppingCartList;
     private RegisterInfoDTO registerInfo;
 
+    private static final String SEPARATER = "------------------------------";
+
     private Boolean isRegistered;
 
     private CustomerMenu(ArrayList<ShoppingCart> shoppingCartList, RegisterInfoDTO registerInfo, Boolean isRegistered) {
@@ -59,6 +61,7 @@ public class CustomerMenu{
         return yourChoice;
     }
     private void buyFoodDrinksMenu() {
+        System.out.println(SEPARATER);
         System.out.println("Welecome to food and/or drinks menu, please choose what to do");
         System.out.println("1: buy food");
         System.out.println("2: buy drinks");
@@ -166,7 +169,7 @@ public class CustomerMenu{
         if(vipStatus) {
             System.out.println("Do you want to use your vip status or get one stamp");
             System.out.println("1: use my vip ");
-            System.out.println("2: get one stamp");
+            System.out.println("2: get one stamp,if you have 10 stamps,you can get a free drinks");
             String choice = enterChoice(1,2);
             if(choice.equals("1")) {
                 return true;
@@ -220,6 +223,7 @@ public class CustomerMenu{
         }
         double discount = isUseVipStatus && isRegistered? 0.95 : 1.0;
         System.out.println("Order Information");
+        System.out.println();
         double totalPrice = 0;
         String formatInfo = CommonUtils.printFormat(3);
         System.out.format(formatInfo,"name","price","number");
@@ -263,7 +267,6 @@ public class CustomerMenu{
         UserLoginDAO userLoginDAO = new UserLoginDAOImpl();
         userLoginDAO.updateRegisterStamps(registerInfoDto.getId(),stamps);
         registerInfoDto = userLoginDAO.getRegisterInfo(registerInfoDto.getId());
-        System.out.println("You are our Vip member now.");
         return registerInfoDto;
     }
     private void payMoney(double totalPrice,Boolean isUseVipStatus) {
@@ -273,7 +276,7 @@ public class CustomerMenu{
             if(registerInfo.getStamps()==10) {
                 System.out.println("you can get a free drink after next purchase");
             }
-            System.out.println("you get a new stamp now");
+            System.out.println("you get a new stamp now!");
         }
         System.out.println("we will return to the main menu later");
         buyFoodDrinksMenu();
@@ -560,16 +563,13 @@ public class CustomerMenu{
         System.out.println("You are our Vip member now.");
         return registerInfo;
     }
-    private void remainUnchanged() {
-
-    }
     private void customerMainMenu (String userId) {
+        System.out.println(SEPARATER);
         System.out.println("Welcome to customer main menu");
         RegisterInfoDTO registerInfo = null;
         Boolean vipStatus = false;
         if(isRegistered) {
             registerInfo = getRegisterInfoById(userId);
-//            System.out.println("userId"+userId);
             setRegisterInfo(registerInfo);
             System.out.println("Your current number of loyalty stamps is : "+ registerInfo.getStamps());
             vipStatus = registerInfo.getVipStatus();
@@ -587,8 +587,6 @@ public class CustomerMenu{
                         System.out.println("pay the money successfully");
                         registerInfo = updateVipStatus (userId,true);
                     }
-                } else {
-                    remainUnchanged();
                 }
             }
         }
@@ -612,6 +610,7 @@ public class CustomerMenu{
     }
 
     private void UnregisterMenu(){
+        System.out.println(SEPARATER);
         System.out.println("Do you want to remove yourselves from the coffee shop’s group");
         System.out.println("1.Yes");
         System.out.println("2.No");
@@ -624,9 +623,6 @@ public class CustomerMenu{
     }
 
     private void removeExistingRegistration() {
-//        System.out.println(SEPARATER);
-//        System.out.println("Remove existing registration");
-//        System.out.println(SEPARATER);
         UserLoginDAO userLoginDAO = new UserLoginDAOImpl();
         UserDAO userDAO = new UserDAOImpl();
         userDAO.delete(registerInfo.getId());
@@ -653,12 +649,5 @@ public class CustomerMenu{
         ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
         CustomerMenu customerMenu = new CustomerMenu(shoppingCartList,null,true);
         customerMenu.customerMainMenu(userId);
-    }
-
-    private static void main(String[] args) {
-//        ArrayList<Product> selectedProducts = new ArrayList<Product>();
-//        ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
-//        customerMainMenu(shoppingCartList,"1",true);
-//        goToGuestMenu();
     }
 }
