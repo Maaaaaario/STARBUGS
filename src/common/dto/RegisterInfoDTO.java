@@ -3,12 +3,12 @@ package common.dto;
 import java.util.Date;
 
 /**
- * @title: RegisterInfoDTO
+ * @title: RegisterInfoDto
  * @Author Qihang Yin
  * @Date: 2022/12/6 15:02
  * @Version 1.0
  */
-public class RegisterInfoDTO {
+public class RegisterInfoDto {
 
     private String id;
 
@@ -18,7 +18,7 @@ public class RegisterInfoDTO {
 
     private Date vipExpireDate;
 
-    public RegisterInfoDTO(String id, int stamps, boolean vipStatus, Date vipExpireDate) {
+    public RegisterInfoDto(String id, int stamps, boolean vipStatus, Date vipExpireDate) {
         this.id = id;
         this.stamps = stamps;
         this.vipStatus = vipStatus;

@@ -1,7 +1,5 @@
 package guestmenu.dao;
 
-import common.UserType;
-import common.dto.UserDto;
 import guestmenu.Food;
 
 import java.util.ArrayList;

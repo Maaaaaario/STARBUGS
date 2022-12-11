@@ -1,10 +1,12 @@
 package login.businesslogic;
 
 import adminmenu.AdminSystem;
+import adminmenu.AdminSystemImpl;
 import common.CheckUtils;
+import common.CommonUtils;
 import common.UserType;
-import common.dto.RegisterInfoDto;
-import common.dto.UserDto;
+import common.dto.RegisterInfoDTO;
+import common.dto.UserDTO;
 import guestmenu.CustomerMenu;
 import guestmenu.Produce;
 import guestmenu.ShoppingCart;
@@ -89,7 +91,7 @@ public class UserLoginImpl implements UserLogin{
             } else {
                 if (correctPassword.equalsIgnoreCase(inputPassword)) {
                     System.out.println();
-                    String id = userLoginDAO.getId(inputName);
+                    String id = userLoginDAO.getId(inputName, UserType.REGISTERED);
                     // go to registered customer menu
                     ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
                     ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
@@ -166,8 +168,9 @@ public class UserLoginImpl implements UserLogin{
             } else {
                 if (correctPassword.equalsIgnoreCase(inputPassword)) {
                     System.out.println();
-                    //todo go to admin menu
-                    AdminSystem.startAdminMenu();
+                    //go to admin menu
+                    AdminSystem adminSystem = new AdminSystemImpl();
+                    adminSystem.startAdminMenu();
                 } else {
                     System.out.println("The password is incorrect.");
 
@@ -188,9 +191,10 @@ public class UserLoginImpl implements UserLogin{
 
     private void guestLogin() {
         System.out.println("Do you want to become registered?");
-        String toRegister = getYesOrNo();
+        String toRegister = CommonUtils.getYesOrNo(keyboardInput);
         ArrayList<Produce> selectedProduces = new ArrayList<Produce>();
         ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
+
         if ("Y".equalsIgnoreCase(toRegister)) {
             // registration process
             String newId = register();
@@ -233,48 +237,21 @@ public class UserLoginImpl implements UserLogin{
         String password = keyboardInput.nextLine().strip();
 
         // generate unique id
-        String id = generateUserId();
+        String id = CommonUtils.generateUserId();
 
         // insert into table user
-        UserDto userDto = new UserDto(id, name, password, UserType.REGISTERED);
+        UserDTO userDto = new UserDTO(id, name, password, UserType.REGISTERED);
         UserDAO userDAO = new UserDAOImpl();
         userDAO.add(userDto);
 
         // insert into table register_info
-        RegisterInfoDto registerInfoDto = new RegisterInfoDto(id, 0, false, null);
+        RegisterInfoDTO registerInfoDto = new RegisterInfoDTO(id, 0, false, null);
         userLoginDAO.addRegisterInfo(registerInfoDto);
 
         System.out.println("Registered successfully. Your ID is: " + id);
         System.out.println();
 
         return id;
-    }
-
-    // id should be like 00000001
-    private String generateUserId() {
-
-        String newId;
-
-        UserLoginDAO userLoginDAO = new UserLoginDAOImpl();
-        String maxId = userLoginDAO.getMaxId();
-
-        if (CheckUtils.isNullOrEmpty(maxId)) {
-            newId = "00000001";
-        } else {
-            newId = String.format("%08d", Integer.parseInt(maxId) + 1);
-        }
-
-        return newId;
-    }
-
-    private String getYesOrNo() {
-        System.out.print("[Y/N]: ");
-        String input = keyboardInput.nextLine().strip();
-        if (!CheckUtils.isYOrN(input)) {
-            System.out.println("Please enter Y/N.");
-            return getYesOrNo();
-        }
-        return input;
     }
 
     private UserType getLoginType() {

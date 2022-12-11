@@ -2,7 +2,7 @@ package login.dao;
 
 import common.DAO;
 import common.UserType;
-import common.dto.UserDto;
+import common.dto.UserDTO;
 
 import java.sql.*;
 
@@ -18,9 +18,9 @@ public class UserDAOImpl extends DAO implements UserDAO{
     }
 
     @Override
-    public UserDto get(String id) {
+    public UserDTO get(String id) {
 
-        UserDto dto = null;
+        UserDTO dto = null;
 
         try (Connection c = getConnection(); Statement s = c.createStatement()) {
 
@@ -31,7 +31,7 @@ public class UserDAOImpl extends DAO implements UserDAO{
                 String name = rs.getString("name");
                 String password = rs.getString("password");
                 UserType userType = UserType.fromValue(rs.getString("type"));
-                dto = new UserDto(id, name, password, userType);
+                dto = new UserDTO(id, name, password, userType);
             }
 
         } catch (SQLException e) {
@@ -42,7 +42,7 @@ public class UserDAOImpl extends DAO implements UserDAO{
     }
 
     @Override
-    public void add(UserDto dto) {
+    public void add(UserDTO dto) {
         String sql = "insert into user values(?,?,?,?)";
         try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
 

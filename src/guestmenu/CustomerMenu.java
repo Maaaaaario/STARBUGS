@@ -1,8 +1,9 @@
 package guestmenu;
 
 import common.CheckUtils;
-import common.dto.RegisterInfoDto;
-import common.dto.UserDto;
+import common.CommonUtils;
+import common.dto.RegisterInfoDTO;
+import common.dto.UserDTO;
 import guestmenu.dao.DrinksDAO;
 import guestmenu.dao.DrinksDAOImpl;
 import guestmenu.dao.FoodDAO;
@@ -21,11 +22,11 @@ import java.util.Scanner;
 public class CustomerMenu {
     static Scanner keyboardInput; // Define the scanner used to get user input
     private ArrayList<ShoppingCart> shoppingCartList;
-    private RegisterInfoDto registerInfo;
+    private RegisterInfoDTO registerInfo;
 
     private Boolean isRegistered;
 
-    public CustomerMenu(ArrayList<ShoppingCart> shoppingCartList, RegisterInfoDto registerInfo, Boolean isRegistered) {
+    public CustomerMenu(ArrayList<ShoppingCart> shoppingCartList, RegisterInfoDTO registerInfo, Boolean isRegistered) {
         this.shoppingCartList = shoppingCartList;
         this.registerInfo = registerInfo;
         this.isRegistered = isRegistered;
@@ -35,7 +36,7 @@ public class CustomerMenu {
         isRegistered = registered;
     }
 
-    public void setRegisterInfo(RegisterInfoDto registerInfo) {
+    public void setRegisterInfo(RegisterInfoDTO registerInfo) {
         this.registerInfo = registerInfo;
     }
 
@@ -187,7 +188,7 @@ public class CustomerMenu {
         }
 
         System.out.println("Order Information");
-        String formatInfo = printFormat(2);
+        String formatInfo = CommonUtils.printFormat(2);
         System.out.format(formatInfo,"name","number");
         System.out.println();
         System.out.format(formatInfo,produce.getName(),number);
@@ -223,7 +224,7 @@ public class CustomerMenu {
         double discount = isUseVipStatus && isRegistered? 0.95 : 1.0;
         System.out.println("Order Information");
         double totalPrice = 0;
-        String formatInfo = printFormat(3);
+        String formatInfo = CommonUtils.printFormat(3);
         System.out.format(formatInfo,"name","price","number");
         System.out.println();
         for(ShoppingCart shoppingCart: shoppingCartList) {
@@ -259,7 +260,7 @@ public class CustomerMenu {
             buyFoodDrinksMenu();
         }
     }
-    public RegisterInfoDto updateStamps(RegisterInfoDto registerInfoDto) {
+    public RegisterInfoDTO updateStamps(RegisterInfoDTO registerInfoDto) {
         int stamps = registerInfoDto.getStamps();
         stamps+=1;
         UserLoginDAO userLoginDAO = new UserLoginDAOImpl();
@@ -428,7 +429,7 @@ public class CustomerMenu {
                 buyFoodDrinksMenu();
             }
         }
-        String formatInfo = printFormat(3);
+        String formatInfo = CommonUtils.printFormat(3);
         System.out.format(formatInfo,"name","price","number");
         System.out.println();
         for(ShoppingCart shoppingCart: shoppingCartList) {
@@ -448,19 +449,19 @@ public class CustomerMenu {
             case "2" -> buyFoodDrinksMenu();
         }
     }
-    public static String printFormat(int number) {
-        String formatInfo = "";
-        for(int i=0;i<number;i++) {
-            formatInfo += "%-12s";
-        }
-        return formatInfo;
-//        String column1Format = "%-12s";
-//        String column2Format = "%-12s";
-//        String column3Format = "%-12s";
-//        String formatInfo = column1Format + column2Format + column3Format;
-    }
+//    public static String printFormat(int number) {
+//        String formatInfo = "";
+//        for(int i=0;i<number;i++) {
+//            formatInfo += "%-12s";
+//        }
+//        return formatInfo;
+////        String column1Format = "%-12s";
+////        String column2Format = "%-12s";
+////        String column3Format = "%-12s";
+////        String formatInfo = column1Format + column2Format + column3Format;
+//    }
     public void printFoodList(ArrayList<Food> foodList) {
-        String formatInfo = printFormat(3);
+        String formatInfo = CommonUtils.printFormat(3);
         System.out.format(formatInfo,"name","price","type");
         System.out.println();
         for (Food food: foodList) {
@@ -469,7 +470,7 @@ public class CustomerMenu {
         }
     }
     public void printDrinksList(ArrayList<Drinks> drinksList){
-        String formatInfo = printFormat(3);
+        String formatInfo = CommonUtils.printFormat(3);
         System.out.format(formatInfo,"name","price","type");
         System.out.println();
         for (Drinks drinks: drinksList) {
@@ -481,7 +482,7 @@ public class CustomerMenu {
         FoodDAO foodDAO = new FoodDAOImpl();
         ArrayList<String> foodTypes = foodDAO.getFoodTypes();
         int index = 1;
-        String formatInfo = printFormat(2);
+        String formatInfo = CommonUtils.printFormat(2);
         System.out.format(formatInfo,"number","Foodtypes");
         System.out.println();
         for(String type: foodTypes) {
@@ -495,7 +496,7 @@ public class CustomerMenu {
         DrinksDAO drinksDAO = new DrinksDAOImpl();
         ArrayList<String> drinksTypes = drinksDAO.getDrinksTypes();
         int index = 1;
-        String formatInfo = printFormat(2);
+        String formatInfo = CommonUtils.printFormat(2);
         System.out.format(formatInfo,"number","Foodtypes");
         System.out.println();
         for(String type: drinksTypes) {
@@ -505,7 +506,7 @@ public class CustomerMenu {
         }
         return drinksTypes;
     }
-//    public static void searchFood(ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDto registerInfo) {
+//    public static void searchFood(ArrayList<ShoppingCart> shoppingCartList,RegisterInfoDTO registerInfo) {
 //        System.out.println("Welcome to search food, please choose what to do");
 //        System.out.println("1: Search food by name");
 //        System.out.println("2: Search food by type");
@@ -547,15 +548,15 @@ public class CustomerMenu {
 //            System.out.println("\t"+drinks.getId()+"\t"+drinks.getName()+"\t"+drinks.getPrice()+"\t"+drinks.getType()+"\t");
 //        }
 //    }
-    public RegisterInfoDto getRegisterInfoById(String userId) {
+    public RegisterInfoDTO getRegisterInfoById(String userId) {
         UserLoginDAO userLoginDAO = new UserLoginDAOImpl();
-        RegisterInfoDto registerInfo = userLoginDAO.getRegisterInfo(userId);
+        RegisterInfoDTO registerInfo = userLoginDAO.getRegisterInfo(userId);
         return registerInfo;
     }
-    public RegisterInfoDto updateVipStatus(String userId,boolean status) {
+    public RegisterInfoDTO updateVipStatus(String userId,boolean status) {
         UserLoginDAO userLoginDAO = new UserLoginDAOImpl();
         userLoginDAO.updateRegisterVipStatus(userId,status);
-        RegisterInfoDto registerInfo = userLoginDAO.getRegisterInfo(userId);
+        RegisterInfoDTO registerInfo = userLoginDAO.getRegisterInfo(userId);
         System.out.println("You are our Vip member now.");
         return registerInfo;
     }
@@ -564,7 +565,7 @@ public class CustomerMenu {
     }
     public void customerMainMenu (String userId) {
         System.out.println("Welcome to customer main menu");
-        RegisterInfoDto registerInfo = null;
+        RegisterInfoDTO registerInfo = null;
         Boolean vipStatus = false;
         if(isRegistered) {
             registerInfo = getRegisterInfoById(userId);

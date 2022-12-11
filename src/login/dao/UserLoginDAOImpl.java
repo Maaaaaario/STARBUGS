@@ -2,9 +2,7 @@ package login.dao;
 
 import common.DAO;
 import common.UserType;
-import common.dto.RegisterInfoDto;
-import common.dto.UserDto;
-import guestmenu.Food;
+import common.dto.RegisterInfoDTO;
 
 import java.sql.*;
 
@@ -21,7 +19,7 @@ public class UserLoginDAOImpl extends DAO implements UserLoginDAO{
     }
 
     @Override
-    public void addRegisterInfo(RegisterInfoDto dto) {
+    public void addRegisterInfo(RegisterInfoDTO dto) {
         String sql = "insert into register_info values(?,?,?,?)";
         try (Connection c = getConnection(); PreparedStatement ps = c.prepareStatement(sql)) {
 
@@ -99,13 +97,13 @@ public class UserLoginDAOImpl extends DAO implements UserLoginDAO{
     }
 
     @Override
-    public String getId(String userName) {
+    public String getId(String userName, UserType userType) {
 
         String id = null;
 
         try (Connection c = getConnection(); Statement s = c.createStatement()) {
 
-            String sql = "select id from user where name = '" + userName + "'";
+            String sql = "select id from user where name = '" + userName + "'" + " and type = '" + userType.getCode() + "'";
 
             ResultSet rs = s.executeQuery(sql);
             if (rs.next()) {
@@ -120,8 +118,8 @@ public class UserLoginDAOImpl extends DAO implements UserLoginDAO{
     }
 
     @Override
-    public RegisterInfoDto getRegisterInfo(String id) {
-        RegisterInfoDto registerInfoDto = null;
+    public RegisterInfoDTO getRegisterInfo(String id) {
+        RegisterInfoDTO registerInfoDto = null;
 
         try (Connection c = getConnection(); Statement s = c.createStatement()) {
 
@@ -132,7 +130,7 @@ public class UserLoginDAOImpl extends DAO implements UserLoginDAO{
                 int stamps = rs.getInt("stamps");
                 Boolean vip_status = rs.getBoolean("vip_status");
                 Date date = rs.getDate("vip_expire_date");
-                registerInfoDto = new RegisterInfoDto(id, stamps, vip_status, date);
+                registerInfoDto = new RegisterInfoDTO(id, stamps, vip_status, date);
             }
 
         } catch (SQLException e) {

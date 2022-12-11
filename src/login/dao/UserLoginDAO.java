@@ -1,7 +1,7 @@
 package login.dao;
 
 import common.UserType;
-import common.dto.RegisterInfoDto;
+import common.dto.RegisterInfoDTO;
 
 public interface UserLoginDAO {
 
@@ -9,13 +9,13 @@ public interface UserLoginDAO {
 
     String getPassword(String userName, UserType userType);
 
-    String getId(String userName);
+    String getId(String userName, UserType userType);
 
-    void addRegisterInfo(RegisterInfoDto dto);
+    void addRegisterInfo(RegisterInfoDTO dto);
 
     int getNumberOfThisName(String name);
 
-    RegisterInfoDto getRegisterInfo(String id);
+    RegisterInfoDTO getRegisterInfo(String id);
 
     void updateRegisterVipStatus(String id,Boolean status);
 
