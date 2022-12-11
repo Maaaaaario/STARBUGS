@@ -109,15 +109,23 @@ public class CustomerMenu{
             buyFoodDrinksMenu();
         }
     }
-    private int getIntFromKeyboard () {
-        String inputFromKeyboard = keyboardInput.nextLine();
+    private int getIntFromKeyboard(int lowerBound, int upperBound) {
+        String inputFromKeyboard = keyboardInput.nextLine().strip();
+        int inputNumber;
         try {
-            return Integer.parseInt(inputFromKeyboard); // If the input from user is integer number, just return it
+            inputNumber =  Integer.parseInt(inputFromKeyboard); // If the input from user is integer number, just return it
         }
         catch (NumberFormatException ex) { // If the user input is invalid, catch the exception
-            System.out.println ("Invalid input, please type in an integer"); // Send warning to the user
-            return getIntFromKeyboard (); // The method calls itself recursively to ensure the user makes valid input
+            System.out.println ("Invalid input, please type in an integer."); // Send warning to the user
+            return getIntFromKeyboard(lowerBound, upperBound); // The method calls itself recursively to ensure the user makes valid input
         }
+
+        if (inputNumber < lowerBound || inputNumber > upperBound) {
+            System.out.println("The number should not be less than " + lowerBound + " or greater than " + upperBound + " , please try again.");
+            return getIntFromKeyboard(lowerBound, upperBound);
+        }
+
+        return inputNumber;
     }
     private String getStringFromKeyboard(){
         String inputFromKeyboard = keyboardInput.nextLine();
@@ -310,7 +318,7 @@ public class CustomerMenu{
         System.out.println("Welecome to buy food, please choose one type you want to eat");
         ArrayList<String> foodTypes = showFoodTypes();
         System.out.print ("\nplease input the number of the foodTypes: ");
-        int id = getIntFromKeyboard()-1; // Get input choice from user
+        int id = getIntFromKeyboard(1, foodTypes.size())-1; // Get input choice from user
         String type = foodTypes.get(id);
 //        System.out.println("type: "+type);
         return type;
@@ -343,10 +351,10 @@ public class CustomerMenu{
 
         System.out.println("foodName: "+foodName);
         System.out.println("please input the number of food you want to buy");
-        int number = getIntFromKeyboard(); // Get input choice from user
+        int number = getIntFromKeyboard(1, Integer.MAX_VALUE); // Get input choice from user
         while(isEnoughInventory(foodName,foodList,number) == false) {
             System.out.println("inventory is not enough, please input the proper number you want to buy again");
-            number = getIntFromKeyboard(); // Get input choice from user
+            number = getIntFromKeyboard(1, Integer.MAX_VALUE); // Get input choice from user
         }
         Food food = getFoodByName(foodList,foodName);
         System.out.println("Do you want to buy the food immediately or add all food to the shopping cart?pleas choose to do");
@@ -374,7 +382,7 @@ public class CustomerMenu{
         System.out.println("Welecome to buy drinks, please choose one type you want to drink");
         ArrayList<String> drinksTypes = getDrinksTypes();
         System.out.print ("\nplease input the number of the foodTypes: ");
-        int id = getIntFromKeyboard()-1; // Get input choice from user
+        int id = getIntFromKeyboard(1, drinksTypes.size())-1; // Get input choice from user
         String type = drinksTypes.get(id);
 //        System.out.println("type: "+type);
         return type;
@@ -412,7 +420,7 @@ public class CustomerMenu{
             buyFoodDrinksMenu();
         }
         System.out.println("please input the number of drinks you want to buy");
-        int number = getIntFromKeyboard(); // Get input choice from user
+        int number = getIntFromKeyboard(1, Integer.MAX_VALUE); // Get input choice from user
         System.out.println("Do you want to buy the drinks immediately?please choose to do");
         System.out.println("1: buy drinks immediately");
         System.out.println("2: add to the shopping cart");
