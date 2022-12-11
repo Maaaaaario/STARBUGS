@@ -567,7 +567,7 @@ public class CustomerMenu{
         Boolean vipStatus = false;
         if(isRegistered) {
             registerInfo = getRegisterInfoById(userId);
-            System.out.println("userId"+userId);
+//            System.out.println("userId"+userId);
             setRegisterInfo(registerInfo);
             System.out.println("Your current number of loyalty stamps is : "+ registerInfo.getStamps());
             vipStatus = registerInfo.getVipStatus();
