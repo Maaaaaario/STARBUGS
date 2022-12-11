@@ -146,4 +146,17 @@ public class ReservationDAOImpl extends DAO implements ReservationDAO {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void deleteReservationByUser(String userId) {
+        try (Connection c = getConnection(); Statement s = c.createStatement()) {
+
+            String sql = "delete from reservation where user_id = '" + userId + "'";
+
+            s.execute(sql);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

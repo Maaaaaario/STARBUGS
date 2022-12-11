@@ -85,6 +85,9 @@ public class AdminSystemImpl implements AdminSystem{
             AdminDAO adminDAO = new AdminDAOImpl();
             adminDAO.deleteRegisterInfo(id);
 
+            ReservationDAO reservationDAO = new ReservationDAOImpl();
+            reservationDAO.deleteReservationByUser(id);
+
             System.out.println("Customer ID: " + id + " is removed successfully.");
         }
 

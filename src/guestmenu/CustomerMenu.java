@@ -17,6 +17,8 @@ import login.dao.UserLoginDAO;
 import login.dao.UserLoginDAOImpl;
 import reservation.Reservation;
 import reservation.ReservationImpl;
+import reservation.dao.ReservationDAO;
+import reservation.dao.ReservationDAOImpl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -590,7 +592,8 @@ public class CustomerMenu{
                 }
             }
         }
-        System.out.println ("Welcome to customer main menu, please choose what to do");
+
+        System.out.println ("Please choose what to do.");
         System.out.println ("1: Go to buy food and/or drinks menu");
         System.out.println ("2: Reserve the private room");
         System.out.println ("3: Un-register");
@@ -607,15 +610,19 @@ public class CustomerMenu{
         Reservation reservation = new ReservationImpl();
         reservation.reservationMenu(registerInfo.getId());
     }
+
     private void UnregisterMenu(){
         System.out.println("Do you want to remove yourselves from the coffee shop’s group");
         System.out.println("1.Yes");
         System.out.println("2.No");
         String choice = enterChoice(1,2);
         if(choice.equals("1")) {
-
+            removeExistingRegistration();
+        } else {
+            customerMainMenu(registerInfo.getId());
         }
     }
+
     private void removeExistingRegistration() {
 //        System.out.println(SEPARATER);
 //        System.out.println("Remove existing registration");
@@ -626,6 +633,10 @@ public class CustomerMenu{
 
         AdminDAO adminDAO = new AdminDAOImpl();
         adminDAO.deleteRegisterInfo(registerInfo.getId());
+
+        ReservationDAO reservationDAO = new ReservationDAOImpl();
+        reservationDAO.deleteReservationByUser(registerInfo.getId());
+
         System.out.println("Customer ID: " + registerInfo.getId() + " is removed successfully.");
         System.out.println();
         returnToLoginInterface();
