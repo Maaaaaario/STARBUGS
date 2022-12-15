@@ -2,7 +2,6 @@ package guestmenu.dao;
 
 import common.DAO;
 import guestmenu.Drinks;
-import guestmenu.Drinks;
 
 import java.sql.*;
 import java.util.ArrayList;

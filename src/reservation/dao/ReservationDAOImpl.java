@@ -2,9 +2,7 @@ package reservation.dao;
 
 import common.DAO;
 import common.UserType;
-import common.dto.InventoryDTO;
 import common.dto.ReservationDTO;
-import common.dto.UserDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
