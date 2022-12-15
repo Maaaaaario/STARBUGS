@@ -40,10 +40,6 @@ public class CustomerMenu{
         this.isRegistered = isRegistered;
     }
 
-    private void setRegistered(Boolean registered) {
-        isRegistered = registered;
-    }
-
     private void setRegisterInfo(RegisterInfoDTO registerInfo) {
         this.registerInfo = registerInfo;
     }
@@ -317,7 +313,7 @@ public class CustomerMenu{
         }
         ArrayList<Food> foodList = searchFoodByType(type);
         System.out.println("1: choose a new type again");
-        System.out.println("2: choose the food name to buy");
+        System.out.println("2: input the food name to buy");
         System.out.println("3: return to buyFoodOrDrinksMenu");
         String choice = enterChoice(1,3);
         if(choice.equals("1")) {
@@ -381,7 +377,7 @@ public class CustomerMenu{
         }
         ArrayList<Drinks> drinksList = searchDrinksByType(type);
         System.out.println("1: choose a new type again");
-        System.out.println("2: choose the drink name to buy");
+        System.out.println("2: input the drink name to buy");
         System.out.println("3: return to buyFoodOrDrinksMenu");
         String choice = enterChoice(1,3);
         if(choice.equals("1")) {
@@ -422,7 +418,7 @@ public class CustomerMenu{
     private void shoppingCart() {
         String userId = registerInfo != null ? registerInfo.getId() : null;
         if(shoppingCartList.size() == 0) {
-            System.out.println("you don't add anythind in the shopping cart");
+            System.out.println("you don't add anythiny in the shopping cart");
             System.out.println("please enter 1 to return");
             String choice = enterChoice(1,1);
             if(choice.equals("1")) {

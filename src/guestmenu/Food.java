@@ -36,19 +36,8 @@ public class Food extends Product {
         return inventory;
     }
 
-    public void setSales(int sales) {
-        this.sales = sales;
-    }
-
-    public void setInventory(int inventory) {
-        this.inventory = inventory;
-    }
-
     public int getDailyInventory() {
         return dailyInventory;
     }
 
-    public void setDailyInventory(int dailyInventory) {
-        this.dailyInventory = dailyInventory;
-    }
 }

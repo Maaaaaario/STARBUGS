@@ -18,7 +18,4 @@ public class Drinks extends Product {
         return type;
     }
 
-    public void setSales(int sales) {
-        this.sales = sales;
-    }
 }
