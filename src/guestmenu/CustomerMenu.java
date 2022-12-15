@@ -418,7 +418,7 @@ public class CustomerMenu{
     private void shoppingCart() {
         String userId = registerInfo != null ? registerInfo.getId() : null;
         if(shoppingCartList.size() == 0) {
-            System.out.println("you don't add anythiny in the shopping cart");
+            System.out.println("you don't add anything in the shopping cart");
             System.out.println("please enter 1 to return");
             String choice = enterChoice(1,1);
             if(choice.equals("1")) {

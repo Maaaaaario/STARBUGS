@@ -32,7 +32,4 @@ public class InventoryDTO {
         return inventory;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
 }

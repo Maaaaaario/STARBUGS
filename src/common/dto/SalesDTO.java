@@ -32,7 +32,4 @@ public class SalesDTO {
         return dailyInventory;
     }
 
-    public void setDailyInventory(int dailyInventory) {
-        this.dailyInventory = dailyInventory;
-    }
 }
