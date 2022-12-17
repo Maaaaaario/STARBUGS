@@ -188,8 +188,6 @@ public class UserLoginImpl implements UserLogin{
     private void guestLogin() {
         System.out.println("Do you want to become registered?");
         String toRegister = CommonUtils.getYesOrNo(keyboardInput);
-        ArrayList<Product> selectedProducts = new ArrayList<Product>();
-        ArrayList<ShoppingCart> shoppingCartList= new ArrayList<ShoppingCart>();
 
         if ("Y".equalsIgnoreCase(toRegister)) {
             // registration process
