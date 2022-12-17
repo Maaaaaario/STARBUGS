@@ -165,7 +165,7 @@ public class CustomerMenu{
         if(vipStatus) {
             System.out.println("Do you want to use your vip status or get one stamp");
             System.out.println("1: use my vip ");
-            System.out.println("2: get one stamp,if you have 10 stamps,you can get a free drinks");
+            System.out.println("2: get one stamp");
             String choice = enterChoice(1,2);
             if(choice.equals("1")) {
                 return true;
