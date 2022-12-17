@@ -61,7 +61,7 @@ public class ReservationDAOImpl extends DAO implements ReservationDAO {
 
         try (Connection c = getConnection(); Statement s = c.createStatement()) {
 
-            String sql = "select id from reservation where time = '" + time.toString() + "'";
+            String sql = "select id from reservation where time = '" + new Timestamp(time.getTime()) + "'";
 
             ResultSet rs = s.executeQuery(sql);
             while (rs.next()) {
